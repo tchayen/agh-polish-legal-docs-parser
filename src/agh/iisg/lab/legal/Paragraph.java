@@ -4,7 +4,8 @@ import java.util.List;
 
 /**
  * Paragraph
- * Corresponds to "Ustęp" written as "1.".
+ * Corresponds to "Ustęp" written as "{index as number}.". Index is local to
+ * the enclosing section and starts at 1.
  */
 public class Paragraph extends LegalPartition {
   public Paragraph(String rawContent) {
