@@ -1,9 +1,6 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Article;
-import agh.iisg.lab.legal.Chapter;
-import agh.iisg.lab.legal.Paragraph;
-import agh.iisg.lab.legal.Section;
+import agh.iisg.lab.legal.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,22 +14,26 @@ import static java.util.stream.Collectors.toList;
 public class Parser {
   private final Pattern chapterTitle = Pattern.compile("Rozdział ");
   private final Pattern uppercaseTitle = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ ]+\n");
-  private final Pattern articlePrefix = Pattern.compile("Art. ");
-  private final Pattern paragraphPrefix = Pattern.compile("\\d+. ");
+  private final Pattern articlePrefix = Pattern.compile("Art\\. ");
+  private final Pattern paragraphPrefix = Pattern.compile("\n\\d+\\. ");
+  private final Pattern pointPrefix = Pattern.compile("\n\\d+\\) ");
 
   private List<Chapter> chapters = new ArrayList<>();
 
   public Parser(List<String> lines, List<Predicate<String>> filters) {
-
     Arrays.stream(lines.parallelStream()
                        .filter(l -> filters.stream().allMatch(p -> p.test(l)))
                        .map(line -> line + "\n")
                        .reduce("", String::concat)
+                       // Join lines with words separated by "-".
+                       .replaceAll("-\n", "")
+                       // Replace new line with space where it is not followed by one of the non-breaking line beginnings.
+                       .replaceAll("\n(?![A-ZĘÓĄŚŁŻŹĆŃ ]+\n|Rozdział [IVX]+|Art\\. \\d+\\.|\\d+\\. |\\d+\\) )", " ")
+                       // Replace spaces with new lines in cases where article is followed directly by plain text.
+                       .replaceAll("(?<=Art\\. \\d{0,3}\\.) ", "\n")
                        .split(chapterTitle.pattern()))
           .map(Chapter::new)
           .forEach(this::processChapter);
-
-    int sth = 10;
   }
 
   private void processChapter(Chapter chapter) {
@@ -81,7 +82,6 @@ public class Parser {
               .collect(toList());
       section.setPartitions(articles);
 
-
       articles.forEach(article -> {
         AtomicInteger i = new AtomicInteger(0);
         List<Paragraph> paragraphs =
@@ -90,6 +90,16 @@ public class Parser {
                 .map(raw -> new Paragraph(Integer.toString(i.incrementAndGet()), raw))
                 .collect(toList());
         article.setPartitions(paragraphs);
+
+        paragraphs.forEach(paragraph -> {
+          AtomicInteger j = new AtomicInteger(0);
+          List<Point> points =
+            Arrays.stream(paragraph.getRawContent().split(pointPrefix.pattern()))
+                  .dropWhile(String::isEmpty)
+                  .map(raw -> new Point(Integer.toString(j.incrementAndGet()), raw))
+                  .collect(toList());
+          paragraph.setPartitions(points);
+        });
       });
     });
   }

@@ -20,6 +20,10 @@ public class Main {
 
     final Parser parser = new Parser(lines, filters);
 
-    System.out.println(parser.getChapters().get(2).getRawContent());
+    System.out.println(parser.getChapters().get(13)
+                             .getPartitions().get(0)
+                             .getPartitions().get(5)
+                             .getPartitions().get(0)
+                             .getRawContent());
   }
 }
