@@ -2,9 +2,13 @@ package agh.iisg.lab.legal;
 
 import java.util.List;
 
-public abstract class LegalPartition {
-  protected final String rawContent;
-  protected List<? extends LegalPartition> partitions;
+public abstract class LegalPartition implements Legal {
+  protected String rawContent;
+  private String content;
+  protected List<Legal> partitions;
+
+  public LegalPartition() {
+  }
 
   public LegalPartition(String rawContent) {
     this.rawContent = rawContent;
@@ -14,11 +18,19 @@ public abstract class LegalPartition {
     return rawContent;
   }
 
-  public List<? extends LegalPartition> getPartitions() {
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public List<Legal> getPartitions() {
     return partitions;
   }
 
-  public void setPartitions(List<? extends LegalPartition> partitions) {
+  public void setPartitions(List<Legal> partitions) {
     this.partitions = partitions;
   }
 }

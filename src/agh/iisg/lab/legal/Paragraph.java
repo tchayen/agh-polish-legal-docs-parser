@@ -7,7 +7,7 @@ import java.util.Optional;
  * Corresponds to "Ustęp" written as "{index as number}.". Index is local to
  * the enclosing section and starts at 1.
  */
-public class Paragraph extends LegalPartition {
+public class Paragraph extends LegalPartition implements Enumerable {
   private Optional<String> number;
 
   public Paragraph(String number, String rawContent) {

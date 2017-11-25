@@ -7,7 +7,7 @@ import java.util.Optional;
  * Corresponds to "Article" written as "Art. {index as number}" where index
  * starts at 1 and is global.
  */
-public class Article extends LegalPartition {
+public class Article extends LegalPartition implements Enumerable {
   private Optional<String> number;
 
   public Article(String number, String rawContent) {

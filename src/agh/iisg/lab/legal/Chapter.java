@@ -7,7 +7,7 @@ import java.util.Optional;
  * Corresponds to "Rozdział" written as
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
-public class Chapter extends LegalPartition {
+public class Chapter extends LegalPartition implements Enumerable {
   private Optional<String> number;
   private Optional<String> title;
 

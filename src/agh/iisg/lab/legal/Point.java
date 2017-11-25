@@ -7,8 +7,11 @@ import java.util.Optional;
  * Corresponds to "Punkt" written as "{index as number})". Index is local to
  * the enclosing paragraph and starts at 1.
  */
-public class Point extends LegalPartition {
+public class Point extends LegalPartition implements Enumerable {
   private Optional<String> number;
+
+  public Point() {
+  }
 
   public Point(String number, String rawContent) {
     super(rawContent);

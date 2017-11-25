@@ -1,4 +1,9 @@
 package agh.iisg.lab.legal;
 
-public class Legal {
+import java.util.List;
+
+public interface Legal {
+  String getContent();
+  List<Legal> getPartitions();
+  void setPartitions(List<Legal> partitions);
 }
