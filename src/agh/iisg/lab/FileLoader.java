@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileLoader {
-    static List<String> load(String path) {
-        List<String> lines = new ArrayList<String>();
-        try {
-            lines = Files.readAllLines(Paths.get(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return lines;
+  static List<String> load(String path) {
+    List<String> lines = new ArrayList<String>();
+    try {
+      lines = Files.readAllLines(Paths.get(path));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return lines;
+  }
 }

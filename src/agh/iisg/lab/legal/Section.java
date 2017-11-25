@@ -1,6 +1,6 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Corresponds to "Oddział" written as "Oddział {index as Number}\n{title}"
@@ -8,21 +8,17 @@ import java.util.List;
  * line is optional.
  */
 public class Section extends LegalPartition {
-  private String title;
+  private Optional<String> title;
 
   public Section(String rawContent) {
     super(rawContent);
   }
 
-  public List<LegalPartition> getParagraphs() {
-    return partitions;
-  }
-
   public String getTitle() {
-    return title;
+    return title.orElse("");
   }
 
   public void setTitle(String title) {
-    this.title = title;
+    this.title = Optional.ofNullable(title);
   }
 }

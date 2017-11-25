@@ -1,6 +1,6 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Article
@@ -8,11 +8,19 @@ import java.util.List;
  * starts at 1 and is global.
  */
 public class Article extends LegalPartition {
-  public Article(String rawContent) {
+  private Optional<String> number;
+
+  public Article(String number, String rawContent) {
     super(rawContent);
+    this.number = Optional.ofNullable(number);
   }
 
-  public List<LegalPartition> getSections() {
-    return partitions;
+  public String getNumber() {
+    return number.orElse("");
   }
+
+  public void setNumber(String number) {
+    this.number = Optional.ofNullable(number);
+  }
+
 }

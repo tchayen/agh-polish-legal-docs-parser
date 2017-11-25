@@ -11,11 +11,11 @@ public class Main {
     List<String> lines = FileLoader.load("assets/konstytucja.txt");
 
     List<Predicate<String>> filters = Arrays.asList(
-        line -> !Objects.equals(line, "©Kancelaria Sejmu"),
-        Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
-               .asPredicate()
-               .negate(),
-        line -> line.length() > 1
+      line -> !Objects.equals(line, "©Kancelaria Sejmu"),
+      Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
+             .asPredicate()
+             .negate(),
+      line -> line.length() > 1
     );
 
     final Parser parser = new Parser(lines, filters);

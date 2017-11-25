@@ -1,7 +1,5 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
-
 /**
  * Point
  * Corresponds to "Punkt" written as "{index as number})". Index is local to
@@ -10,9 +8,5 @@ import java.util.List;
 public class Point extends LegalPartition {
   public Point(String rawContent) {
     super(rawContent);
-  }
-
-  public List<LegalPartition> getLetters() {
-    return partitions;
   }
 }

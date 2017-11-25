@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class LegalPartition {
   protected final String rawContent;
-  protected List<LegalPartition> partitions;
+  protected List<? extends LegalPartition> partitions;
 
   public LegalPartition(String rawContent) {
     this.rawContent = rawContent;
@@ -14,11 +14,11 @@ public abstract class LegalPartition {
     return rawContent;
   }
 
-  public List<LegalPartition> getPartitions() {
+  public List<? extends LegalPartition> getPartitions() {
     return partitions;
   }
 
-  public void setPartitions(List<LegalPartition> partitions) {
+  public void setPartitions(List<? extends LegalPartition> partitions) {
     this.partitions = partitions;
   }
 }

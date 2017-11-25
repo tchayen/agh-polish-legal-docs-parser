@@ -1,6 +1,6 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Chapter
@@ -8,30 +8,26 @@ import java.util.List;
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
 public class Chapter extends LegalPartition {
-  private String number;
-  private String title;
+  private Optional<String> number;
+  private Optional<String> title;
 
   public Chapter(String rawContent) {
     super(rawContent);
   }
 
-  public List<LegalPartition> getArticles() {
-    return partitions;
-  }
-
   public String getNumber() {
-    return number;
+    return number.orElse("");
   }
 
   public void setNumber(String number) {
-    this.number = number;
+    this.number = Optional.ofNullable(number);
   }
 
   public String getTitle() {
-    return title;
+    return title.orElse("");
   }
 
   public void setTitle(String title) {
-    this.title = title;
+    this.title = Optional.ofNullable(title);
   }
 }

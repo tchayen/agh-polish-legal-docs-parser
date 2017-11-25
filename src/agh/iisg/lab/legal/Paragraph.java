@@ -1,6 +1,6 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Paragraph
@@ -8,11 +8,18 @@ import java.util.List;
  * the enclosing section and starts at 1.
  */
 public class Paragraph extends LegalPartition {
-  public Paragraph(String rawContent) {
+  private Optional<String> number;
+
+  public Paragraph(String number, String rawContent) {
     super(rawContent);
+    this.number = Optional.ofNullable(number);
   }
 
-  public List<LegalPartition> getPoints() {
-    return partitions;
+  public String getNumber() {
+    return number.orElse("");
+  }
+
+  public void setNumber(String number) {
+    this.number = Optional.ofNullable(number);
   }
 }
