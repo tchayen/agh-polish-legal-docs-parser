@@ -4,8 +4,8 @@ import java.util.List;
 
 public abstract class LegalPartition implements Legal {
   protected String rawContent;
-  private String content;
   protected List<Legal> partitions;
+  private String content;
 
   public LegalPartition() {
   }
