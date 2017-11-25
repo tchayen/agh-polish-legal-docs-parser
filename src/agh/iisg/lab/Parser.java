@@ -57,7 +57,9 @@ public class Parser {
     chapter.setPartitions(new ArrayList<>(sections));
 
     sections.forEach(section -> {
-      section.setTitle(sectionTitles.size() > 0 ? sectionTitles.remove(0) : "");
+      section.setTitle(sectionTitles.size() > 0
+                         ? sectionTitles.remove(0)
+                         : "");
 
       List<Article> articles =
         Arrays.stream(section.getContent().split(Regex.articlePrefix.pattern()))
@@ -74,10 +76,11 @@ public class Parser {
               .collect(toList());
       section.setPartitions(new ArrayList<>(articles));
 
-      articles.forEach(article -> this.getParagraphs(
-        article,
-        () -> new Paragraph(),
-        Regex.paragraphPrefix));
+      articles.parallelStream()
+              .forEach(article -> this.getParagraphs(
+                article,
+                Paragraph::new,
+                Regex.paragraphPrefix));
     });
   }
 
@@ -90,10 +93,11 @@ public class Parser {
             .collect(toList());
     parent.setPartitions(new ArrayList<>(partitions));
 
-    partitions.forEach(partition -> this.getPartitions(
-      partition,
-      () -> new Point(),
-      Regex.pointPrefix));
+    partitions.parallelStream()
+              .forEach(partition -> this.getPartitions(
+                partition,
+                Point::new,
+                Regex.pointPrefix));
   }
 
   private void getPartitions(Legal parent, Supplier<Enumerable> supplier, Pattern regex) {
