@@ -10,6 +10,9 @@ import java.util.Optional;
 public class Paragraph extends LegalPartition implements Enumerable {
   private Optional<String> number;
 
+  public Paragraph() {
+  }
+
   public Paragraph(String number, String rawContent) {
     super(rawContent);
     this.number = Optional.ofNullable(number);
