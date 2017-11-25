@@ -5,9 +5,9 @@ import java.util.List;
 public interface Legal {
   String getContent();
 
+  void setContent(String content);
+
   List<Legal> getPartitions();
 
   void setPartitions(List<Legal> partitions);
-
-  void setContent(String content);
 }

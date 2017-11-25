@@ -13,11 +13,6 @@ public class Point extends LegalPartition implements Enumerable {
   public Point() {
   }
 
-  public Point(String number, String rawContent) {
-    super(rawContent);
-    this.number = Optional.ofNullable(number);
-  }
-
   public String getNumber() {
     return number.orElse("");
   }
