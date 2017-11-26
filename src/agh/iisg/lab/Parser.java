@@ -5,9 +5,7 @@ import agh.iisg.lab.legal.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import static java.util.stream.Collectors.toList;
 
@@ -62,9 +60,7 @@ public class Parser {
     chapter.setPartitions(new ArrayList<>(sections));
 
     sections.forEach(section -> {
-      section.setTitle(sectionTitles.size() > 0
-                         ? sectionTitles.remove(0)
-                         : "");
+      section.setTitle(sectionTitles.size() > 0 ? sectionTitles.remove(0) : "");
 
       List<Legal> partitions =
         Arrays.stream(section.getContent().split(Article.regex.pattern()))
@@ -85,26 +81,25 @@ public class Parser {
       partitions.parallelStream()
               .forEach(article -> this.getPartitions(
                 article,
-                new ArrayList<Supplier<Legal>>(Arrays.asList(
-                  Paragraph::new,
-                  Point::new,
-                  Letter::new
+                new ArrayList<PartitionGenerator>(Arrays.asList(
+                  new PartitionGenerator(Paragraph::new, null),
+                  new PartitionGenerator(Point::new, null),
+                  new PartitionGenerator(Letter::new, null)
                 ))
               ));
     });
   }
 
-  private void getPartitions(Legal parent, ArrayList<Supplier<Legal>> args) {
-    if (args.size() == 0) return;
+  private void getPartitions(Legal parent, ArrayList<PartitionGenerator> generators) {
+    if (generators.size() == 0) return;
 
-    Supplier<Legal> example = args.remove(0);
-    AtomicInteger i = new AtomicInteger(0);
+    PartitionGenerator generator = generators.remove(0);
     List<Legal> partitions =
-      Arrays.stream(parent.getContent().split(example.get().regex().pattern()))
+      Arrays.stream(parent.getContent().split(generator.getSupplier().get().regex().pattern()))
             .dropWhile(String::isEmpty)
             .map(raw -> {
-              Enumerable partition = (Enumerable) example.get();
-              partition.setNumber(Integer.toString(i.incrementAndGet()));
+              Enumerable partition = (Enumerable) generator.getSupplier().get();
+              partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
               partition.setContent(raw);
               return partition;
             })
@@ -112,9 +107,6 @@ public class Parser {
     parent.setPartitions(partitions);
 
     partitions.parallelStream()
-              .forEach(partition -> this.getPartitions(
-                partition,
-                new ArrayList<>(args)
-              ));
+              .forEach(partition -> this.getPartitions(partition, new ArrayList<>(generators)));
   }
 }
