@@ -15,16 +15,21 @@ public class Parser {
   private List<Chapter> chapters = new ArrayList<>();
 
   public Parser(List<String> lines, List<Predicate<String>> filters) {
-    Arrays.stream(lines.parallelStream()
-                       .filter(l -> filters.stream().allMatch(p -> p.test(l)))
-                       .map(line -> line + "\n")
-                       .reduce("", String::concat)
-                       .replaceAll(Regex.dashedNewline.pattern(), "")
-                       .replaceAll(Regex.skipNewlines.pattern(), " ")
-                       .replaceAll(Regex.replaceSpaces.pattern(), "\n")
-                       .split(Chapter.regex.pattern()))
+    Arrays.stream(
+      lines.parallelStream()
+           .filter(l -> filters.stream().allMatch(p -> p.test(l)))
+           .map(line -> line + "\n")
+           .reduce("", String::concat)
+           .replaceAll(Regex.dashedNewline.pattern(), "")
+           .replaceAll(Regex.skipNewlines.pattern(), " ")
+           .replaceAll(Regex.replaceSpaces.pattern(), "\n")
+           .split(Chapter.regex.pattern()))
           .map(Chapter::new)
           .forEach(this::processChapter);
+  }
+
+  public List<Chapter> getPartitions() {
+    return chapters;
   }
 
   private void processChapter(Chapter chapter) {
@@ -41,15 +46,16 @@ public class Parser {
 
     List<String> sectionTitles = new ArrayList<>();
     List<Section> sections =
-      Arrays.stream(chapterLines.stream()
-                                .map(line -> {
-                                  if (Regex.uppercaseTitle.matcher((line + "\n")).find())
-                                    sectionTitles.add(line);
+      Arrays.stream(
+        chapterLines.stream()
+                    .map(line -> {
+                      if (Regex.uppercaseTitle.matcher((line + "\n")).find())
+                        sectionTitles.add(line);
 
-                                  return line + "\n";
-                                })
-                                .reduce("", String::concat)
-                                .split(Regex.uppercaseTitle.pattern()))
+                      return line + "\n";
+                    })
+                    .reduce("", String::concat)
+                    .split(Regex.uppercaseTitle.pattern()))
             .dropWhile(String::isEmpty)
             .map(Section::new)
             .collect(toList());
@@ -111,9 +117,5 @@ public class Parser {
                 partition,
                 new ArrayList<Supplier<Legal>>(args)
               ));
-  }
-
-  public List<Chapter> getChapters() {
-    return chapters;
   }
 }

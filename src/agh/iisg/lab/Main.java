@@ -21,5 +21,10 @@ public class Main {
     final Parser parser = new Parser(lines, filters);
 
     int a = 1;
+
+    System.out.println(parser.getPartitions().get(10)
+                             .getPartitions().get(0)
+                             .getPartitions().get(2)
+                             .getContent());
   }
 }
