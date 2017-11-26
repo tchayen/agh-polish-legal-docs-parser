@@ -35,7 +35,7 @@ class ParserTest {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
       parser.getPartitions().get(10)
-            .getSections().get(0)
+            .getPartitions().get(0)
             .getPartitions().get(3)
             .getPartitions().get(2)
             .getContent()
@@ -66,5 +66,4 @@ class ParserTest {
             assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
           );
   }
-
 }

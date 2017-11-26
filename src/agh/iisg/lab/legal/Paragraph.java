@@ -1,6 +1,5 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -20,11 +19,6 @@ public class Paragraph extends LegalPartition implements Enumerable {
   public Paragraph() {
   }
 
-  public Paragraph(String number, String rawContent) {
-    super(rawContent);
-    this.number = Optional.ofNullable(number);
-  }
-
   public String getNumber() {
     return number.orElse("");
   }
@@ -36,13 +30,5 @@ public class Paragraph extends LegalPartition implements Enumerable {
   @Override
   public Pattern regex() {
     return regex;
-  }
-
-  /**
-   * Alias for getPartitions().
-   * @return list of partitions.
-   */
-  public List<Legal> getPoints() {
-    return partitions;
   }
 }

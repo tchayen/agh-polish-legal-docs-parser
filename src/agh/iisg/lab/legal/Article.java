@@ -1,6 +1,5 @@
 package agh.iisg.lab.legal;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -14,7 +13,7 @@ public class Article extends LegalPartition implements Enumerable {
    * Match article prefix.
    * NOTE: index is intentionally left to make parsing easier.
    */
-  public static final Pattern regex = Pattern.compile("Art\\. ");
+  public static final Pattern regex = Pattern.compile("Art\\. \\d{0,3}\\.\n");
 
   private Optional<String> number;
 
@@ -34,11 +33,8 @@ public class Article extends LegalPartition implements Enumerable {
     return regex;
   }
 
-  /**
-   * Alias for getPartitions().
-   * @return list of partitions.
-   */
-  public List<Legal> getParagraphs() {
-    return partitions;
+  @Override
+  public String getContent() {
+    return String.format("Art. %s.\n%s", number.get(), content);
   }
 }
