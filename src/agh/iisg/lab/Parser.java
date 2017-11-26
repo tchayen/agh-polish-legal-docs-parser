@@ -10,8 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.stream.Collectors.toList;
 
 public class Parser {
-  private List<Chapter> chapters = new ArrayList<>();
+  /**
+   * Globally counts articles. Starts with -2 to offset preamble and first skipped section.
+   */
   private AtomicInteger articleCounter = new AtomicInteger(-2);
+
+  private List<Chapter> chapters = new ArrayList<>();
 
   public Parser(List<String> lines) {
     Arrays.stream(
@@ -43,6 +47,12 @@ public class Parser {
     return chapters;
   }
 
+  /**
+   * Recursively parse legal partitions using given list of generators.
+   *
+   * @param parent     parent object.
+   * @param generators List<PartitionGenerators> providing constructor-lambdas, regex patterns and instance counters.
+   */
   private void parse(Legal parent, ArrayList<PartitionGenerator> generators) {
     if (generators.size() == 0) return;
 
