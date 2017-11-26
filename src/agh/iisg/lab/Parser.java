@@ -66,7 +66,7 @@ public class Parser {
                          ? sectionTitles.remove(0)
                          : "");
 
-      List<Article> articles =
+      List<Legal> partitions =
         Arrays.stream(section.getContent().split(Article.regex.pattern()))
               .dropWhile(String::isEmpty)
               .map(raw -> {
@@ -74,16 +74,15 @@ public class Parser {
                   Arrays.asList(raw.split("\n")));
 
                 String number = content.remove(0);
-                return new Article(
-                  number.substring(0, number.length() - 1),
-                  content.stream()
-                         .map(line -> line + "\n")
-                         .reduce("", String::concat));
+                Enumerable partition = new Article();
+                partition.setNumber(number.substring(0, number.length() - 1));
+                partition.setContent("Art. " + raw);
+                return partition;
               })
               .collect(toList());
-      section.setPartitions(new ArrayList<>(articles));
+      section.setPartitions(new ArrayList<>(partitions));
 
-      articles.parallelStream()
+      partitions.parallelStream()
               .forEach(article -> this.getPartitions(
                 article,
                 new ArrayList<Supplier<Legal>>(Arrays.asList(
@@ -115,7 +114,7 @@ public class Parser {
     partitions.parallelStream()
               .forEach(partition -> this.getPartitions(
                 partition,
-                new ArrayList<Supplier<Legal>>(args)
+                new ArrayList<>(args)
               ));
   }
 }

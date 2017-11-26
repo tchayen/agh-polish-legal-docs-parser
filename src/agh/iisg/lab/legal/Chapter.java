@@ -1,5 +1,6 @@
 package agh.iisg.lab.legal;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -40,5 +41,13 @@ public class Chapter extends LegalPartition implements Enumerable {
   @Override
   public Pattern regex() {
     return regex;
+  }
+
+  /**
+   * Alias for getPartitions().
+   * @return list of partitions.
+   */
+  public List<Legal> getSections() {
+    return partitions;
   }
 }

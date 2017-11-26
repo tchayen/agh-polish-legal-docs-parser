@@ -23,7 +23,8 @@ public class Main {
     int a = 1;
 
     System.out.println(parser.getPartitions().get(10)
-                             .getPartitions().get(0)
+                             .getSections().get(0)
+                             .getPartitions().get(3)
                              .getPartitions().get(2)
                              .getContent());
   }
