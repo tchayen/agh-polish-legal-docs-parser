@@ -7,12 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ParserTest {
   Parser parser;
