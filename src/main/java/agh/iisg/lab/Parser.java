@@ -61,7 +61,7 @@ public class Parser {
 
     List<Legal> partitions =
       Arrays.stream(parent.getContent().split(pattern))
-            .dropWhile(String::isEmpty)
+            .filter(line -> !line.isEmpty())
             .map(raw -> {
               Legal partition = generator.getSupplier().get();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));

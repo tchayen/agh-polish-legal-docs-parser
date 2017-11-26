@@ -1,23 +1,20 @@
 package agh.iisg.lab;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ParserTest {
-  Parser parser;
+public class ParserTest {
+  private static Parser parser;
 
-  @BeforeAll
-  void setUp() {
+  @BeforeClass
+  public static void setUp() {
     parser = new Parser(FileLoader.load("assets/konstytucja.txt"));
   }
 
   @Test
-  void getPointTest() {
+  public void getPointTest() {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
       parser.parse().get(10)
@@ -29,9 +26,9 @@ class ParserTest {
   }
 
   @Test
-  void getArticleTest() {
+  public void getArticleTest() {
     assertEquals(
-    "Art. 152.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
+      "Art. 152.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
       parser.parse().get(6)
             .getPartitions().get(0)
             .getPartitions().get(6)
@@ -43,13 +40,13 @@ class ParserTest {
    * Assert that there are no leftover "X. " prefixes in points.
    */
   @Test
-  void extensivePointTest() {
+  public void extensivePointTest() {
     parser.parse().stream()
           .flatMap(chapter -> chapter.getPartitions().stream())
           .flatMap(section -> section.getPartitions().stream())
           .flatMap(article -> article.getPartitions().stream())
           .forEach(paragraph ->
-            assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
+                     assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
           );
   }
 }
