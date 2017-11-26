@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Corresponds to "Ustęp" written as "{index as number}.". Index is local to
  * the enclosing section and starts at 1.
  */
-public class Paragraph extends LegalPartition implements Enumerable {
+public class Paragraph extends LegalPartition {
   /**
    * Match for number enumeration.
    */
@@ -25,6 +25,16 @@ public class Paragraph extends LegalPartition implements Enumerable {
 
   public void setNumber(String number) {
     this.number = Optional.ofNullable(number);
+  }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  @Override
+  public void setTitle(String Title) {
+
   }
 
   @Override

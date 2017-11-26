@@ -13,4 +13,12 @@ public interface Legal {
   List<Legal> getPartitions();
 
   void setPartitions(List<Legal> partitions);
+
+  String getNumber();
+
+  void setNumber(String number);
+
+  String getTitle();
+
+  void setTitle(String Title);
 }

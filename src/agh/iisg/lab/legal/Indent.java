@@ -19,4 +19,22 @@ public class Indent extends LegalPartition {
   public Pattern regex() {
     return regex;
   }
+
+  @Override
+  public String getNumber() {
+    return null;
+  }
+
+  @Override
+  public void setNumber(String number) {
+  }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  @Override
+  public void setTitle(String Title) {
+  }
 }

@@ -6,76 +6,44 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toList;
 
 public class Parser {
   private List<Chapter> chapters = new ArrayList<>();
-  private AtomicInteger articleCounter = new AtomicInteger(-1);
+  private AtomicInteger articleCounter = new AtomicInteger(-2);
 
-  public Parser(List<String> lines, List<Predicate<String>> filters) {
+  public Parser(List<String> lines) {
     Arrays.stream(
       lines.parallelStream()
-           .filter(l -> filters.stream().allMatch(p -> p.test(l)))
+           .filter(l -> ConstitutionConstraints.filters.stream().allMatch(p -> p.test(l)))
            .map(line -> line + "\n")
            .reduce("", String::concat)
-           .replaceAll(Regex.dashedNewline.pattern(), "")
-           .replaceAll(Regex.skipNewlines.pattern(), " ")
-           .replaceAll(Regex.replaceSpaces.pattern(), "\n")
+           .replaceAll(ConstitutionConstraints.dashedNewline.pattern(), "")
+           .replaceAll(ConstitutionConstraints.skipNewlines.pattern(), " ")
+           .replaceAll(ConstitutionConstraints.replaceSpaces.pattern(), "\n")
            .split(Chapter.regex.pattern()))
           .map(Chapter::new)
-          .forEach(this::processChapter);
+          .forEach(chapter -> {
+            this.chapters.add(chapter);
+            this.parse(
+              chapter,
+              new ArrayList<>(Arrays.asList(
+                new PartitionGenerator(Section::new, null),
+                new PartitionGenerator(Article::new, articleCounter),
+                new PartitionGenerator(Paragraph::new, null),
+                new PartitionGenerator(Point::new, null),
+                new PartitionGenerator(Letter::new, null),
+                new PartitionGenerator(Indent::new, null)
+              )));
+          });
   }
 
-  public List<Chapter> getPartitions() {
+  public List<Chapter> parse() {
     return chapters;
   }
 
-  private void processChapter(Chapter chapter) {
-    chapters.add(chapter);
-
-    ArrayList<String> chapterLines =
-      new ArrayList<>(Arrays.asList(chapter.getContent()
-                                           .split("\n")));
-
-    if (!chapterLines.get(0).equals("KONSTYTUCJA"))
-      chapter.setNumber(chapterLines.remove(0));
-
-    chapter.setTitle(chapterLines.remove(0));
-
-    List<String> sectionTitles = new ArrayList<>();
-    List<Section> sections =
-      Arrays.stream(
-        chapterLines.stream()
-                    .map(line -> {
-                      if (Regex.uppercaseTitle.matcher((line + "\n")).find())
-                        sectionTitles.add(line);
-
-                      return line + "\n";
-                    })
-                    .reduce("", String::concat)
-                    .split(Regex.uppercaseTitle.pattern()))
-            .dropWhile(String::isEmpty)
-            .map(Section::new)
-            .collect(toList());
-    chapter.setPartitions(new ArrayList<>(sections));
-
-    sections.forEach(section -> {
-      section.setTitle(sectionTitles.size() > 0 ? sectionTitles.remove(0) : "");
-
-      this.getPartitions(
-        section,
-        new ArrayList<>(Arrays.asList(
-          new PartitionGenerator(Article::new, articleCounter),
-          new PartitionGenerator(Paragraph::new, null),
-          new PartitionGenerator(Point::new, null),
-          new PartitionGenerator(Letter::new, null)
-        )));
-    });
-  }
-
-  private void getPartitions(Legal parent, ArrayList<PartitionGenerator> generators) {
+  private void parse(Legal parent, ArrayList<PartitionGenerator> generators) {
     if (generators.size() == 0) return;
 
     PartitionGenerator generator = generators.remove(0);
@@ -84,10 +52,10 @@ public class Parser {
     List<Legal> partitions =
       Arrays.stream(parent.getContent().split(pattern))
             .dropWhile(String::isEmpty)
-            .dropWhile(line -> line.matches(pattern))
             .map(raw -> {
-              Enumerable partition = (Enumerable) generator.getSupplier().get();
+              Legal partition = generator.getSupplier().get();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
+              partition.setTitle(raw.replaceAll(pattern, ""));
               partition.setContent(raw);
               return partition;
             })
@@ -95,6 +63,6 @@ public class Parser {
     parent.setPartitions(partitions);
 
     partitions.parallelStream()
-              .forEach(partition -> this.getPartitions(partition, new ArrayList<>(generators)));
+              .forEach(partition -> this.parse(partition, new ArrayList<>(generators)));
   }
 }

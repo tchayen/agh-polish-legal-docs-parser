@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Corresponds to "Punkt" written as "{index as number})". Index is local to
  * the enclosing paragraph and starts at 1.
  */
-public class Point extends LegalPartition implements Enumerable {
+public class Point extends LegalPartition {
 
   /**
    * Match for number with enclosing parenthesis enumeration.
@@ -31,5 +31,15 @@ public class Point extends LegalPartition implements Enumerable {
 
   public void setNumber(String number) {
     this.number = Optional.ofNullable(number);
+  }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  @Override
+  public void setTitle(String Title) {
+
   }
 }

@@ -19,22 +19,14 @@ class ParserTest {
 
   @BeforeAll
   void setUp() {
-    List<Predicate<String>> filters = Arrays.asList(
-      line -> !Objects.equals(line, "©Kancelaria Sejmu"),
-      Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
-             .asPredicate()
-             .negate(),
-      line -> line.length() > 1
-    );
-
-    parser = new Parser(FileLoader.load("assets/konstytucja.txt"), filters);
+    parser = new Parser(FileLoader.load("assets/konstytucja.txt"));
   }
 
   @Test
   void getPointTest() {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
-      parser.getPartitions().get(10)
+      parser.parse().get(10)
             .getPartitions().get(0)
             .getPartitions().get(3)
             .getPartitions().get(2)
@@ -46,7 +38,7 @@ class ParserTest {
   void getArticleTest() {
     assertEquals(
     "Art. 152.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
-      parser.getPartitions().get(6)
+      parser.parse().get(6)
             .getPartitions().get(0)
             .getPartitions().get(6)
             .getContent()
@@ -58,7 +50,7 @@ class ParserTest {
    */
   @Test
   void extensivePointTest() {
-    parser.getPartitions().stream()
+    parser.parse().stream()
           .flatMap(chapter -> chapter.getPartitions().stream())
           .flatMap(section -> section.getPartitions().stream())
           .flatMap(article -> article.getPartitions().stream())

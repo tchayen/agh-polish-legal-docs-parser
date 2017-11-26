@@ -9,10 +9,23 @@ import java.util.regex.Pattern;
  * line is optional.
  */
 public class Section extends LegalPartition {
+  /**
+   * Match title written in uppercase.
+   */
+  public static final Pattern regex = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ ]+\n");
+
   private Optional<String> title;
+
+  public Section() {
+  }
 
   public Section(String rawContent) {
     super(rawContent);
+  }
+
+  @Override
+  public Pattern regex() {
+    return regex;
   }
 
   public String getTitle() {
@@ -24,7 +37,11 @@ public class Section extends LegalPartition {
   }
 
   @Override
-  public Pattern regex() {
+  public String getNumber() {
     return null;
+  }
+
+  @Override
+  public void setNumber(String number) {
   }
 }

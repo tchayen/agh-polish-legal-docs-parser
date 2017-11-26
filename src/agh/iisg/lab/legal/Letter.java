@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * letter corresponds to roman alphabet letter at index (starting at 1).
  * Index is local to the enclosing point.
  */
-public class Letter extends LegalPartition implements Enumerable {
+public class Letter extends LegalPartition {
   /**
    * Match for letter enumeration.
    */
@@ -33,5 +33,15 @@ public class Letter extends LegalPartition implements Enumerable {
   @Override
   public void setNumber(String number) {
     this.number = Optional.ofNullable(number);
+  }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  @Override
+  public void setTitle(String Title) {
+
   }
 }

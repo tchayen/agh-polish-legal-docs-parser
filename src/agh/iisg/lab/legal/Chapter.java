@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Corresponds to "Rozdział" written as
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
-public class Chapter extends LegalPartition implements Enumerable {
+public class Chapter extends LegalPartition {
   /**
    * Match chapter's title.
    */
