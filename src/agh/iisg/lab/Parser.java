@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,7 +22,7 @@ public class Parser {
                        .replaceAll(Regex.dashedNewline.pattern(), "")
                        .replaceAll(Regex.skipNewlines.pattern(), " ")
                        .replaceAll(Regex.replaceSpaces.pattern(), "\n")
-                       .split(Regex.chapterTitle.pattern()))
+                       .split(Chapter.regex.pattern()))
           .map(Chapter::new)
           .forEach(this::processChapter);
   }
@@ -62,10 +61,12 @@ public class Parser {
                          : "");
 
       List<Article> articles =
-        Arrays.stream(section.getContent().split(Regex.articlePrefix.pattern()))
+        Arrays.stream(section.getContent().split(Article.regex.pattern()))
               .dropWhile(String::isEmpty)
               .map(raw -> {
-                ArrayList<String> content = new ArrayList(Arrays.asList(raw.split("\n")));
+                ArrayList<String> content = new ArrayList<>(
+                  Arrays.asList(raw.split("\n")));
+
                 String number = content.remove(0);
                 return new Article(
                   number.substring(0, number.length() - 1),
@@ -77,42 +78,39 @@ public class Parser {
       section.setPartitions(new ArrayList<>(articles));
 
       articles.parallelStream()
-              .forEach(article -> this.getParagraphs(
+              .forEach(article -> this.getPartitions(
                 article,
-                Paragraph::new,
-                Regex.paragraphPrefix));
+                new ArrayList<Supplier<Legal>>(Arrays.asList(
+                  Paragraph::new,
+                  Point::new,
+                  Letter::new
+                ))
+              ));
     });
   }
 
-  private void getParagraphs(Legal parent, Supplier<Enumerable> supplier, Pattern regex) {
+  private void getPartitions(Legal parent, ArrayList<Supplier<Legal>> args) {
+    if (args.size() == 0) return;
+
+    Supplier<Legal> example = args.remove(0);
     AtomicInteger i = new AtomicInteger(0);
     List<Legal> partitions =
-      Arrays.stream(parent.getContent().split(regex.pattern()))
-            .dropWhile(String::isEmpty)
-            .map(raw -> new Paragraph(Integer.toString(i.incrementAndGet()), raw))
-            .collect(toList());
-    parent.setPartitions(new ArrayList<>(partitions));
-
-    partitions.parallelStream()
-              .forEach(partition -> this.getPartitions(
-                partition,
-                Point::new,
-                Regex.pointPrefix));
-  }
-
-  private void getPartitions(Legal parent, Supplier<Enumerable> supplier, Pattern regex) {
-    AtomicInteger i = new AtomicInteger(0);
-    List<Legal> partitions =
-      Arrays.stream(parent.getContent().split(regex.pattern()))
+      Arrays.stream(parent.getContent().split(example.get().regex().pattern()))
             .dropWhile(String::isEmpty)
             .map(raw -> {
-              Enumerable partition = supplier.get();
+              Enumerable partition = (Enumerable) example.get();
               partition.setNumber(Integer.toString(i.incrementAndGet()));
               partition.setContent(raw);
               return partition;
             })
             .collect(toList());
     parent.setPartitions(partitions);
+
+    partitions.parallelStream()
+              .forEach(partition -> this.getPartitions(
+                partition,
+                new ArrayList<Supplier<Legal>>(args)
+              ));
   }
 
   public List<Chapter> getChapters() {

@@ -21,28 +21,7 @@ public class Regex {
   public static final Pattern replaceSpaces = Pattern.compile("(?<=Art\\. \\d{0,3}\\.) ");
 
   /**
-   * Match chapter's title.
-   */
-  public static final Pattern chapterTitle = Pattern.compile("Rozdział ");
-
-  /**
    * Match title written in uppercase.
    */
   public static final Pattern uppercaseTitle = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ ]+\n");
-
-  /**
-   * Match article prefix.
-   * NOTE: index is intentionally left to make parsing easier.
-   */
-  public static final Pattern articlePrefix = Pattern.compile("Art\\. ");
-
-  /**
-   * Match for number enumeration.
-   */
-  public static final Pattern paragraphPrefix = Pattern.compile("\n\\d+\\. ");
-
-  /**
-   * Match for number with enclosing parenthesis enumeration.
-   */
-  public static final Pattern pointPrefix = Pattern.compile("\n\\d+\\) ");
 }

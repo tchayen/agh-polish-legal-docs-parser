@@ -1,6 +1,7 @@
 package agh.iisg.lab.legal;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Point
@@ -8,6 +9,12 @@ import java.util.Optional;
  * the enclosing paragraph and starts at 1.
  */
 public class Point extends LegalPartition implements Enumerable {
+
+  /**
+   * Match for number with enclosing parenthesis enumeration.
+   */
+  public static final Pattern regex = Pattern.compile("\n\\d+\\) ");
+
   private Optional<String> number;
 
   public Point() {
@@ -19,5 +26,10 @@ public class Point extends LegalPartition implements Enumerable {
 
   public void setNumber(String number) {
     this.number = Optional.ofNullable(number);
+  }
+
+  @Override
+  public Pattern regex() {
+    return regex;
   }
 }

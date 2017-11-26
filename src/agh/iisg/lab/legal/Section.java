@@ -1,6 +1,7 @@
 package agh.iisg.lab.legal;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Corresponds to "Oddział" written as "Oddział {index as Number}\n{title}"
@@ -20,5 +21,10 @@ public class Section extends LegalPartition {
 
   public void setTitle(String title) {
     this.title = Optional.ofNullable(title);
+  }
+
+  @Override
+  public Pattern regex() {
+    return null;
   }
 }

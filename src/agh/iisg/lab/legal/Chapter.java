@@ -1,6 +1,7 @@
 package agh.iisg.lab.legal;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Chapter
@@ -8,6 +9,11 @@ import java.util.Optional;
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
 public class Chapter extends LegalPartition implements Enumerable {
+  /**
+   * Match chapter's title.
+   */
+  public static final Pattern regex = Pattern.compile("Rozdział ");
+
   private Optional<String> number;
   private Optional<String> title;
 
@@ -29,5 +35,10 @@ public class Chapter extends LegalPartition implements Enumerable {
 
   public void setTitle(String title) {
     this.title = Optional.ofNullable(title);
+  }
+
+  @Override
+  public Pattern regex() {
+    return regex;
   }
 }
