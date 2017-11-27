@@ -12,7 +12,8 @@ public class Section extends LegalPartition {
   /**
    * Match title written in uppercase.
    */
-  public static final Pattern regex = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ ]+\n");
+  public static final Pattern split = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ, ]+\n");
+  public static final Pattern matchTitle = Pattern.compile("[A-ZĘÓĄŚŁŻŹĆŃ, ]+\n");
 
   private Optional<String> title;
 
@@ -23,17 +24,22 @@ public class Section extends LegalPartition {
     super(rawContent);
   }
 
-  @Override
-  public Pattern regex() {
-    return regex;
-  }
-
   public String getTitle() {
     return title.orElse("");
   }
 
   public void setTitle(String title) {
     this.title = Optional.ofNullable(title);
+  }
+
+  @Override
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   @Override

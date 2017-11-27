@@ -7,17 +7,20 @@ import java.util.regex.Pattern;
  * Corresponds to "Tiret" written as "-".
  */
 public class Indent extends LegalPartition {
-  /**
-   * Match for dash enumeration.
-   */
-  public static final Pattern regex = Pattern.compile("\n- ");
+  public static final Pattern split = Pattern.compile("\n- ");
+  public static final Pattern matchTitle = Pattern.compile("\n- ");
 
   public Indent() {
   }
 
   @Override
-  public Pattern regex() {
-    return regex;
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   @Override

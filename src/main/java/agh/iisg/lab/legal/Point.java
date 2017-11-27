@@ -9,11 +9,8 @@ import java.util.regex.Pattern;
  * the enclosing paragraph and starts at 1.
  */
 public class Point extends LegalPartition {
-
-  /**
-   * Match for number with enclosing parenthesis enumeration.
-   */
-  public static final Pattern regex = Pattern.compile("\n\\d+\\) ");
+  public static final Pattern split = Pattern.compile("\n\\d+\\) ");
+  public static final Pattern matchTitle = Pattern.compile("\n\\d+\\) ");
 
   private Optional<String> number;
 
@@ -21,8 +18,13 @@ public class Point extends LegalPartition {
   }
 
   @Override
-  public Pattern regex() {
-    return regex;
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   public String getNumber() {

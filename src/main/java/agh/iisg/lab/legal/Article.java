@@ -9,11 +9,8 @@ import java.util.regex.Pattern;
  * starts at 1 and is global.
  */
 public class Article extends LegalPartition {
-  /**
-   * Match article prefix.
-   * NOTE: index is intentionally left to make parsing easier.
-   */
-  public static final Pattern regex = Pattern.compile("Art\\. \\d{0,3}\\.\n");
+  public static final Pattern split = Pattern.compile("Art\\. \\d+\\.\n");
+  public static final Pattern matchTitle = Pattern.compile("Art\\. \\d+\\.\n");
 
   private Optional<String> number;
 
@@ -39,8 +36,13 @@ public class Article extends LegalPartition {
   }
 
   @Override
-  public Pattern regex() {
-    return regex;
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   @Override

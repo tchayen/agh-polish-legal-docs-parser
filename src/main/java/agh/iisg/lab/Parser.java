@@ -11,9 +11,9 @@ import static java.util.stream.Collectors.toList;
 
 public class Parser {
   /**
-   * Globally counts articles. Starts with -2 to offset preamble and first skipped section.
+   * Globally counts articles. Starts with -1 to offset preamble.
    */
-  private AtomicInteger articleCounter = new AtomicInteger(-2);
+  private AtomicInteger articleCounter = new AtomicInteger(-1);
 
   private List<Chapter> chapters = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class Parser {
            .replaceAll(ConstitutionConstraints.dashedNewline.pattern(), "")
            .replaceAll(ConstitutionConstraints.skipNewlines.pattern(), " ")
            .replaceAll(ConstitutionConstraints.replaceSpaces.pattern(), "\n")
-           .split(Chapter.regex.pattern()))
+           .split(Chapter.split.pattern()))
           .map(Chapter::new)
           .forEach(chapter -> {
             this.chapters.add(chapter);
@@ -43,7 +43,7 @@ public class Parser {
           });
   }
 
-  public List<Chapter> parse() {
+  public List<Chapter> getPartitions() {
     return chapters;
   }
 
@@ -57,15 +57,13 @@ public class Parser {
     if (generators.size() == 0) return;
 
     PartitionGenerator generator = generators.remove(0);
-    String pattern = generator.getSupplier().get().regex().pattern();
-
     List<Legal> partitions =
-      Arrays.stream(parent.getContent().split(pattern))
+      Arrays.stream(parent.getContent().split(generator.getSupplier().get().split().pattern()))
             .filter(line -> !line.isEmpty())
             .map(raw -> {
               Legal partition = generator.getSupplier().get();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
-              partition.setTitle(raw.replaceAll(pattern, ""));
+              partition.setTitle(raw.replaceAll(generator.getSupplier().get().matchTitle().pattern(), ""));
               partition.setContent(raw);
               return partition;
             })

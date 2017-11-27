@@ -9,16 +9,24 @@ import java.util.regex.Pattern;
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
 public class Chapter extends LegalPartition {
-  /**
-   * Match chapter's title.
-   */
-  public static final Pattern regex = Pattern.compile("Rozdział ");
+  public static final Pattern split = Pattern.compile("Rozdział [IVX]+\n");
+  public static final Pattern matchTitle = Pattern.compile("Rozdział [IVX]+\n");
 
   private Optional<String> number;
   private Optional<String> title;
 
   public Chapter(String rawContent) {
     super(rawContent);
+  }
+
+  @Override
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   public String getNumber() {
@@ -35,10 +43,5 @@ public class Chapter extends LegalPartition {
 
   public void setTitle(String title) {
     this.title = Optional.ofNullable(title);
-  }
-
-  @Override
-  public Pattern regex() {
-    return regex;
   }
 }

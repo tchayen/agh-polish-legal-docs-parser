@@ -28,4 +28,8 @@ public abstract class LegalPartition implements Legal {
   public void setPartitions(List<Legal> partitions) {
     this.partitions = partitions;
   }
+
+  public String toString() {
+    return content;
+  }
 }

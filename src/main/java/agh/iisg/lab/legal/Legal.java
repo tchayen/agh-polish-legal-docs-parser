@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public interface Legal {
-  Pattern regex();
+  Pattern split();
+
+  Pattern matchTitle();
 
   String getContent();
 

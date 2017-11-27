@@ -10,10 +10,8 @@ import java.util.regex.Pattern;
  * Index is local to the enclosing point.
  */
 public class Letter extends LegalPartition {
-  /**
-   * Match for letter enumeration.
-   */
-  public static final Pattern regex = Pattern.compile("\n[a-z]\\) ");
+  public static final Pattern split = Pattern.compile("\n[a-z]\\) ");
+  public static final Pattern matchTitle = Pattern.compile("\n[a-z]\\) ");
 
   private Optional<String> number;
 
@@ -21,8 +19,13 @@ public class Letter extends LegalPartition {
   }
 
   @Override
-  public Pattern regex() {
-    return regex;
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   @Override

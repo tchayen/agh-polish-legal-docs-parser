@@ -7,7 +7,7 @@ Intensively uses functional features of Java 8 such as streams, lambdas, paralle
 
 Chapter (Rozdział) `Rozdział [IVX]+\\nTITLE\\n`
 
-Section (Sekcja) `[A-ZĘÓĄŚŁŻŹĆŃ ]+\\n`
+Section (Sekcja) `[A-ZĘÓĄŚŁŻŹĆŃ, ]+\\n`
 
 Article (Artykuł) `Art\\. \\d+\\.\\n`
 

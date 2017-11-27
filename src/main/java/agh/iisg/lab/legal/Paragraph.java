@@ -9,14 +9,22 @@ import java.util.regex.Pattern;
  * the enclosing section and starts at 1.
  */
 public class Paragraph extends LegalPartition {
-  /**
-   * Match for number enumeration.
-   */
-  public static final Pattern regex = Pattern.compile("\n\\d+\\. ");
+  public static final Pattern split = Pattern.compile("\n\\d+\\. ");
+  public static final Pattern matchTitle = Pattern.compile("\n\\d+\\. ");
 
   private Optional<String> number;
 
   public Paragraph() {
+  }
+
+  @Override
+  public Pattern split() {
+    return split;
+  }
+
+  @Override
+  public Pattern matchTitle() {
+    return matchTitle;
   }
 
   public String getNumber() {
@@ -35,10 +43,5 @@ public class Paragraph extends LegalPartition {
   @Override
   public void setTitle(String Title) {
 
-  }
-
-  @Override
-  public Pattern regex() {
-    return regex;
   }
 }

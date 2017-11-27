@@ -17,7 +17,7 @@ public class ParserTest {
   public void getPointTest() {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
-      parser.parse().get(10)
+      parser.getPartitions().get(10)
             .getPartitions().get(0)
             .getPartitions().get(3)
             .getPartitions().get(2)
@@ -28,8 +28,8 @@ public class ParserTest {
   @Test
   public void getArticleTest() {
     assertEquals(
-      "Art. 152.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
-      parser.parse().get(6)
+      "Art. 153.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
+      parser.getPartitions().get(6)
             .getPartitions().get(0)
             .getPartitions().get(6)
             .getContent()
@@ -41,7 +41,7 @@ public class ParserTest {
    */
   @Test
   public void extensivePointTest() {
-    parser.parse().stream()
+    parser.getPartitions().stream()
           .flatMap(chapter -> chapter.getPartitions().stream())
           .flatMap(section -> section.getPartitions().stream())
           .flatMap(article -> article.getPartitions().stream())
