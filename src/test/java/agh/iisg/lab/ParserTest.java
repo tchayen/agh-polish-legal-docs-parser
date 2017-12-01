@@ -3,7 +3,8 @@ package agh.iisg.lab;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ParserTest {
   private static Parser parser;
@@ -27,12 +28,13 @@ public class ParserTest {
 
   @Test
   public void getArticleTest() {
-    assertEquals(
-      "Art. 153.\n1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
-      parser.getPartitions().get(6)
-            .getPartitions().get(0)
-            .getPartitions().get(6)
-            .getContent()
+    assertEquals("Art. 152.\n" +
+                   "1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n" +
+                   "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
+                 parser.getPartitions().get(6)
+                       .getPartitions().get(0)
+                       .getPartitions().get(6)
+                       .getContent()
     );
   }
 
@@ -48,5 +50,18 @@ public class ParserTest {
           .forEach(paragraph ->
                      assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
           );
+  }
+
+  /**
+   * -1 because preamble should be skipped.
+   */
+  @Test
+  public void articleCountTest() {
+    assertEquals(
+      243,
+      parser.getPartitions().stream()
+            .flatMap(section -> section.getPartitions().stream())
+            .flatMap(article -> article.getPartitions().stream())
+            .count() - 1);
   }
 }

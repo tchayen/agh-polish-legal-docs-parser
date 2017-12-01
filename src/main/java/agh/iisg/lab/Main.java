@@ -30,19 +30,11 @@ public class Main {
 
     final Parser parser = new Parser(lines);
 
-    int a = 1;
-
-//    System.out.println(parser.getPartitions().get(10)
-//                             .getPartitions().get(0)
-//                             .getPartitions().get(3)
-//                             .getPartitions().get(2)
-//                             .getContent());
-
     List<Legal> articles = new ArrayList<>(
         parser.getPartitions()
               .stream()
-              .flatMap(chapter -> chapter.getPartitions().stream())
               .flatMap(section -> section.getPartitions().stream())
+              .flatMap(article -> article.getPartitions().stream())
               .collect(toList()));
 
     articles.remove(0);

@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
 public class Chapter extends LegalPartition {
-  public static final Pattern split = Pattern.compile("Rozdział [IVX]+\n");
-  public static final Pattern matchTitle = Pattern.compile("Rozdział [IVX]+\n");
+  public static final Pattern split = Pattern.compile("\n(?=Rozdział [IVX]+\n[A-ZĘÓĄŚŁŻŹĆŃ, ]+\n)");
+  public static final Pattern matchTitle = Pattern.compile("Rozdział [IVX]+\n[A-ZĘÓĄŚŁŻŹĆŃ, ]+\n");
 
   private Optional<String> number;
   private Optional<String> title;

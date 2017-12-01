@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
 
 import static java.util.stream.Collectors.toList;
 
@@ -30,6 +31,14 @@ public class Parser {
           .map(Chapter::new)
           .forEach(chapter -> {
             this.chapters.add(chapter);
+
+            Matcher title = chapter.matchTitle().matcher(chapter.getContent());
+            if (title.find()) {
+              String foundTitle = title.group(0);
+              chapter.setContent(chapter.getContent().replaceFirst(foundTitle, ""));
+              chapter.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
+            }
+
             this.parse(
               chapter,
               new ArrayList<>(Arrays.asList(
@@ -63,7 +72,14 @@ public class Parser {
             .map(raw -> {
               Legal partition = generator.getSupplier().get();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
-              partition.setTitle(raw.replaceAll(generator.getSupplier().get().matchTitle().pattern(), ""));
+
+              Matcher title = generator.getSupplier().get().matchTitle().matcher(raw);
+              if (title.find()) {
+                String foundTitle = title.group(0);
+                raw = raw.replaceFirst(foundTitle, "");
+                partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
+              }
+
               partition.setContent(raw);
               return partition;
             })
