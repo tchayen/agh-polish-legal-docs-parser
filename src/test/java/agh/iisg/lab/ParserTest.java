@@ -7,22 +7,23 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class ParserTest {
-  private static Parser parser;
+  private static Parser constitution;
 
   @BeforeClass
   public static void setUp() {
-    parser = new Parser(FileLoader.load("assets/konstytucja.txt"));
+    constitution = new Parser(FileLoader.load("assets/konstytucja.txt"));
   }
 
   @Test
   public void getPointTest() {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
-      parser.getPartitions().get(10)
-            .getPartitions().get(0)
-            .getPartitions().get(3)
-            .getPartitions().get(2)
-            .getContent()
+      constitution.getLaw()
+                  .getPartitions().get(10)
+                  .getPartitions().get(0)
+                  .getPartitions().get(3)
+                  .getPartitions().get(2)
+                  .getContent()
     );
   }
 
@@ -31,10 +32,11 @@ public class ParserTest {
     assertEquals("Art. 152.\n" +
                    "1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n" +
                    "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
-                 parser.getPartitions().get(6)
-                       .getPartitions().get(0)
-                       .getPartitions().get(6)
-                       .getContent()
+                 constitution.getLaw()
+                             .getPartitions().get(6)
+                             .getPartitions().get(0)
+                             .getPartitions().get(6)
+                             .getContent()
     );
   }
 
@@ -43,11 +45,13 @@ public class ParserTest {
    */
   @Test
   public void extensivePointTest() {
-    parser.getPartitions().stream()
-          .flatMap(chapter -> chapter.getPartitions().stream())
-          .flatMap(section -> section.getPartitions().stream())
-          .flatMap(article -> article.getPartitions().stream())
-          .forEach(paragraph ->
+    constitution.getLaw()
+                .getPartitions()
+                .stream()
+                .flatMap(chapter -> chapter.getPartitions().stream())
+                .flatMap(section -> section.getPartitions().stream())
+                .flatMap(article -> article.getPartitions().stream())
+                .forEach(paragraph ->
                      assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
           );
   }
@@ -59,9 +63,11 @@ public class ParserTest {
   public void articleCountTest() {
     assertEquals(
       243,
-      parser.getPartitions().stream()
-            .flatMap(section -> section.getPartitions().stream())
-            .flatMap(article -> article.getPartitions().stream())
-            .count() - 1);
+      constitution.getLaw()
+                  .getPartitions()
+                  .stream()
+                  .flatMap(section -> section.getPartitions().stream())
+                  .flatMap(article -> article.getPartitions().stream())
+                  .count() - 1);
   }
 }

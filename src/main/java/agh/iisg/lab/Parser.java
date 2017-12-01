@@ -16,32 +16,27 @@ public class Parser {
    */
   private AtomicInteger articleCounter = new AtomicInteger(-1);
 
-  private List<Chapter> chapters = new ArrayList<>();
+  private Law law;
 
   public Parser(List<String> lines) {
-    Arrays.stream(
+    Arrays.asList(
       lines.parallelStream()
-           .filter(l -> ConstitutionConstraints.filters.stream().allMatch(p -> p.test(l)))
+           .filter(l -> Constraints.filters.stream().allMatch(p -> p.test(l)))
            .map(line -> line + "\n")
            .reduce("", String::concat)
-           .replaceAll(ConstitutionConstraints.dashedNewline.pattern(), "")
-           .replaceAll(ConstitutionConstraints.skipNewlines.pattern(), " ")
-           .replaceAll(ConstitutionConstraints.replaceSpaces.pattern(), "\n")
-           .split(Chapter.split.pattern()))
-          .map(Chapter::new)
-          .forEach(chapter -> {
-            this.chapters.add(chapter);
-
-            Matcher title = chapter.matchTitle().matcher(chapter.getContent());
-            if (title.find()) {
-              String foundTitle = title.group(0);
-              chapter.setContent(chapter.getContent().replaceFirst(foundTitle, ""));
-              chapter.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
-            }
+           .replaceAll(Constraints.dashedNewline.pattern(), "")
+           .replaceAll(Constraints.skipNewlines.pattern(), " ")
+           .replaceAll(Constraints.replaceSpaces.pattern(), "\n"))
+          .stream()
+          .map(Law::new)
+          .forEach(law -> {
+            this.law = law;
 
             this.parse(
-              chapter,
+              law,
               new ArrayList<>(Arrays.asList(
+                new PartitionGenerator(Division::new, null),
+                new PartitionGenerator(Chapter::new, null),
                 new PartitionGenerator(Section::new, null),
                 new PartitionGenerator(Article::new, articleCounter),
                 new PartitionGenerator(Paragraph::new, null),
@@ -52,8 +47,8 @@ public class Parser {
           });
   }
 
-  public List<Chapter> getPartitions() {
-    return chapters;
+  public Law getLaw() {
+    return law;
   }
 
   /**
@@ -86,7 +81,7 @@ public class Parser {
             .collect(toList());
     parent.setPartitions(partitions);
 
-    partitions.parallelStream()
+    partitions.stream()
               .forEach(partition -> this.parse(partition, new ArrayList<>(generators)));
   }
 }

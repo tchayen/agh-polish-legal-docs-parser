@@ -23,6 +23,12 @@ public class Main {
   @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
   private static Integer chapter;
 
+  @Option(name = "-d", aliases = {"--division"}, usage = "Specify division to display.")
+  private static Integer division;
+
+  @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
+  private static String mode;
+
   public static void main(String[] args) {
     new Main().read(args);
 
@@ -31,7 +37,8 @@ public class Main {
     final Parser parser = new Parser(lines);
 
     List<Legal> articles = new ArrayList<>(
-        parser.getPartitions()
+        parser.getLaw()
+              .getPartitions()
               .stream()
               .flatMap(section -> section.getPartitions().stream())
               .flatMap(article -> article.getPartitions().stream())
@@ -49,7 +56,7 @@ public class Main {
     }
 
     if (chapter != null) {
-      System.out.println(parser.getPartitions().get(chapter).getContent());
+      System.out.println(parser.getLaw().getPartitions().get(chapter).getContent());
     }
   }
 
