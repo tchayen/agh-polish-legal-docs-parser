@@ -19,6 +19,7 @@ public class ParserTest {
     assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
       constitution.getLaw()
+                  .getPartitions().get(0)
                   .getPartitions().get(10)
                   .getPartitions().get(0)
                   .getPartitions().get(3)
@@ -33,6 +34,7 @@ public class ParserTest {
                    "1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n" +
                    "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
                  constitution.getLaw()
+                             .getPartitions().get(0)
                              .getPartitions().get(6)
                              .getPartitions().get(0)
                              .getPartitions().get(6)
@@ -46,14 +48,15 @@ public class ParserTest {
   @Test
   public void extensivePointTest() {
     constitution.getLaw()
+                .getPartitions().get(0)
                 .getPartitions()
                 .stream()
                 .flatMap(chapter -> chapter.getPartitions().stream())
                 .flatMap(section -> section.getPartitions().stream())
                 .flatMap(article -> article.getPartitions().stream())
                 .forEach(paragraph ->
-                     assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
-          );
+                           assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
+                );
   }
 
   /**
@@ -64,6 +67,7 @@ public class ParserTest {
     assertEquals(
       243,
       constitution.getLaw()
+                  .getPartitions().get(0)
                   .getPartitions()
                   .stream()
                   .flatMap(section -> section.getPartitions().stream())

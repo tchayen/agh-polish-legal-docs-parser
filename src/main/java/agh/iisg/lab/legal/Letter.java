@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class Letter extends LegalPartition {
   public static final Pattern split = Pattern.compile("\n[a-z]\\) ");
-  public static final Pattern matchTitle = Pattern.compile("\n[a-z]\\) ");
+  public static final Pattern matchTitle = Pattern.compile("^[a-z]\\) ");
 
   private Optional<String> number;
 

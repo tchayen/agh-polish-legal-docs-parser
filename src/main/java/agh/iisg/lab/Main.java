@@ -37,12 +37,12 @@ public class Main {
     final Parser parser = new Parser(lines);
 
     List<Legal> articles = new ArrayList<>(
-        parser.getLaw()
-              .getPartitions()
-              .stream()
-              .flatMap(section -> section.getPartitions().stream())
-              .flatMap(article -> article.getPartitions().stream())
-              .collect(toList()));
+      parser.getLaw()
+            .getPartitions()
+            .stream()
+            .flatMap(section -> section.getPartitions().stream())
+            .flatMap(article -> article.getPartitions().stream())
+            .collect(toList()));
 
     articles.remove(0);
 

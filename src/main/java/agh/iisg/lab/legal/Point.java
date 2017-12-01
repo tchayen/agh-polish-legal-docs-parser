@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Point extends LegalPartition {
   public static final Pattern split = Pattern.compile("\n\\d+\\) ");
-  public static final Pattern matchTitle = Pattern.compile("\n\\d+\\) ");
+  public static final Pattern matchTitle = Pattern.compile("^\\d+\\) ");
 
   private Optional<String> number;
 

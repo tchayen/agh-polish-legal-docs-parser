@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class Division extends LegalPartition {
   public static final Pattern split = Pattern.compile("\n(?=DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n)");
-  public static final Pattern matchTitle = Pattern.compile("DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n");
+  public static final Pattern matchTitle = Pattern.compile("^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n");
 
   private Optional<String> number;
   private Optional<String> title;

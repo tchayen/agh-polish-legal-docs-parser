@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Paragraph extends LegalPartition {
   public static final Pattern split = Pattern.compile("\n\\d+\\. ");
-  public static final Pattern matchTitle = Pattern.compile("\n\\d+\\. ");
+  public static final Pattern matchTitle = Pattern.compile("^\\d+\\. ");
 
   private Optional<String> number;
 
@@ -42,6 +42,5 @@ public class Paragraph extends LegalPartition {
 
   @Override
   public void setTitle(String Title) {
-
   }
 }
