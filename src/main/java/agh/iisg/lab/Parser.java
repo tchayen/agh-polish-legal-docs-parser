@@ -35,14 +35,14 @@ public class Parser {
             this.parse(
               law,
               new ArrayList<>(Arrays.asList(
-                new PartitionGenerator(Division::new, null),
-                new PartitionGenerator(Chapter::new, null),
-                new PartitionGenerator(Section::new, null),
-                new PartitionGenerator(Article::new, articleCounter),
-                new PartitionGenerator(Paragraph::new, null),
-                new PartitionGenerator(Point::new, null),
-                new PartitionGenerator(Letter::new, null),
-                new PartitionGenerator(Indent::new, null)
+                new PartitionGenerator(0, null),
+                new PartitionGenerator(1, null),
+                new PartitionGenerator(2, null),
+                new PartitionGenerator(3, articleCounter),
+                new PartitionGenerator(4, null),
+                new PartitionGenerator(5, null),
+                new PartitionGenerator(6, null),
+                new PartitionGenerator(7, null)
               )));
           });
   }
@@ -62,13 +62,13 @@ public class Parser {
 
     PartitionGenerator generator = generators.remove(0);
     List<Legal> partitions =
-      Arrays.stream(parent.getContent().split(generator.getSupplier().get().split().pattern()))
+      Arrays.stream(parent.getContent().split(Constraints.splitters.get(generator.getIndex()).pattern()))
             .filter(line -> !line.isEmpty())
             .map(raw -> {
-              Legal partition = generator.getSupplier().get();
+              Legal partition = new LegalPartition();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
 
-              Matcher title = generator.getSupplier().get().matchTitle().matcher(raw);
+              Matcher title = Constraints.titleMatchers.get(generator.getIndex()).matcher(raw);
               if (title.find()) {
                 String foundTitle = title.group(0);
                 raw = raw.replaceFirst(foundTitle, "");

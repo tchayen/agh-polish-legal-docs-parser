@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public interface Legal {
-  Pattern split();
-
-  Pattern matchTitle();
-
   String getContent();
 
   void setContent(String content);

@@ -21,16 +21,6 @@ public class Law extends LegalPartition {
     super(rawContent);
   }
 
-  @Override
-  public Pattern split() {
-    return split;
-  }
-
-  @Override
-  public Pattern matchTitle() {
-    return matchTitle;
-  }
-
   public String getNumber() {
     return number.orElse("");
   }

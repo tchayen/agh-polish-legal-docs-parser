@@ -1,5 +1,7 @@
 package agh.iisg.lab;
 
+import agh.iisg.lab.legal.Legal;
+import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,22 +25,23 @@ public class ConstitutionParserTest {
                   .getPartitions().get(10)
                   .getPartitions().get(0)
                   .getPartitions().get(3)
-                  .getPartitions().get(2)
+                  .getPartitions().get(1)
                   .getContent()
     );
   }
 
   @Test
   public void getArticleTest() {
+    Legal p = constitution.getLaw()
+                          .getPartitions().get(0)
+                          .getPartitions().get(6)
+                          .getPartitions().get(0)
+                          .getPartitions().get(6);
+
     assertEquals("Art. 152.\n" +
                    "1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n" +
-                   "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.\n",
-                 constitution.getLaw()
-                             .getPartitions().get(0)
-                             .getPartitions().get(6)
-                             .getPartitions().get(0)
-                             .getPartitions().get(6)
-                             .getContent()
+                   "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.",
+                 p.getTitle() + "\n" + p.getContent()
     );
   }
 

@@ -4,37 +4,39 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Constraints {
   public static final String UPPERCASE_WORD_REGEX = "[A-ZĘÓĄŚŁŻŹĆŃ, ]+";
   public static final String WORD_REGEX = "[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+";
 
-  public static final List<String> splitters = Arrays.asList(
+  public static final List<Pattern> splitters = Arrays.asList(
     "\n(?=DZIAŁ [IVX]+\n"+ Constraints.WORD_REGEX + "\n)",
     "\n(?=Rozdział ([IVX]|\\d)+\n" + Constraints.UPPERCASE_WORD_REGEX + "\n)",
     "\n(?=[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n)",
-    "Art\\. \\d+\\.\n",
+    "\n(?=Art\\. \\d+\\.\n)",
     "\n\\d+\\. ",
     "\n\\d+\\) ",
-    "\n[a-z]\\) ",
+    "\n[a-z]+\\) ",
     "\n- "
-  );
+  ).stream().map(Pattern::compile).collect(Collectors.toList());
 
-  public static final List<String> titleMatchers = Arrays.asList(
+  public static final List<Pattern> titleMatchers = Arrays.asList(
     "^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n",
     "Rozdział ([IVX]|\\d)+\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
     "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
     "Art\\. \\d+\\.\n",
     "^\\d+\\. ",
     "^\\d+\\) ",
-    "^[a-z]\\) ",
+    "^[a-z]+\\) ",
     "\n- "
-  );
+  ).stream().map(Pattern::compile).collect(Collectors.toList());
 
   private static final List<String> newLiners = Arrays.asList(
     UPPERCASE_WORD_REGEX + "\n",
     "DZIAŁ [IVX]+",
     "Rozdział ([IVX]|\\d)+",
+    "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
     "Art\\. \\d+\\.",
     "\\d+\\. ",
     "\\d+\\) ",

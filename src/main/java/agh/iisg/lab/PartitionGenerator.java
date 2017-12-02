@@ -7,19 +7,15 @@ import java.util.function.Supplier;
 
 public class PartitionGenerator {
   private AtomicInteger counter;
-  private Supplier<Legal> supplier;
+  private int index;
 
-  public PartitionGenerator(Supplier<Legal> supplier, AtomicInteger counter) {
-    this.supplier = supplier;
+  public PartitionGenerator(int index, AtomicInteger counter) {
+    this.index = index;
     this.counter = counter == null ? new AtomicInteger(0) : counter;
   }
 
-  public Supplier<Legal> getSupplier() {
-    return supplier;
-  }
-
-  public void setSupplier(Supplier<Legal> supplier) {
-    this.supplier = supplier;
+  public int getIndex() {
+    return index;
   }
 
   public AtomicInteger getCounter() {
