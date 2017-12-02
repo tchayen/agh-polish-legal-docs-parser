@@ -1,9 +1,6 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Legal;
-
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 public class PartitionGenerator {
   private AtomicInteger counter;

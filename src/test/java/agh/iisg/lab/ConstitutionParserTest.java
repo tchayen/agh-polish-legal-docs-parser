@@ -1,12 +1,11 @@
 package agh.iisg.lab;
 
 import agh.iisg.lab.legal.Legal;
-import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ConstitutionParserTest {
   private static Parser constitution;

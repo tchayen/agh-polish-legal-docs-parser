@@ -1,6 +1,7 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.*;
+import agh.iisg.lab.legal.Legal;
+import agh.iisg.lab.legal.LegalPartition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class Parser {
    */
   private AtomicInteger articleCounter = new AtomicInteger(-1);
 
-  private Law law;
+  private LegalPartition law;
 
   public Parser(List<String> lines) {
     Arrays.asList(
@@ -28,10 +29,9 @@ public class Parser {
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
            .replaceAll(Constraints.replaceSpaces.pattern(), "\n"))
           .stream()
-          .map(Law::new)
+          .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
-
             this.parse(
               law,
               new ArrayList<>(Arrays.asList(
@@ -47,7 +47,7 @@ public class Parser {
           });
   }
 
-  public Law getLaw() {
+  public Legal getLaw() {
     return law;
   }
 

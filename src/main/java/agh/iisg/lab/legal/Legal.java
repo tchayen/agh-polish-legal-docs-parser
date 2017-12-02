@@ -1,7 +1,6 @@
 package agh.iisg.lab.legal;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public interface Legal {
   String getContent();
