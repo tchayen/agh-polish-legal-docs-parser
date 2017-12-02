@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * "Rozdział {index as roman number}\n{title}" where index starts at 1.
  */
 public class Division extends LegalPartition {
-  public static final Pattern split = Pattern.compile("\n(?=DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n)");
+  public static final Pattern split = Pattern.compile("\n(?=DZIAŁ [IVX]+\n"+ Constraints.WORD_REGEX + "\n)");
   public static final Pattern matchTitle = Pattern.compile("^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n");
 
   private Optional<String> number;

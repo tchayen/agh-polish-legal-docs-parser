@@ -6,7 +6,21 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class Constraints {
-  public static final String WORD_REGEX = "[A-ZĘÓĄŚŁŻŹĆŃ, ]+";
+  public static final String UPPERCASE_WORD_REGEX = "[A-ZĘÓĄŚŁŻŹĆŃ, ]+";
+  public static final String WORD_REGEX = "[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+";
+
+  public static final List<String> splitters = Arrays.asList(
+    WORD_REGEX + "\n",
+    "DZIAŁ [IVX]+",
+    "Rozdział ([IVX]|\\d)+",
+    "Art\\. \\d+\\.",
+    "\\d+\\. ",
+    "\\d+\\) "
+  );
+
+  public static final List<String> titleMatchers = Arrays.asList(
+    "Art\\. \\d+\\.\n"
+  );
 
   /**
    * Join lines with words separated by "-".
