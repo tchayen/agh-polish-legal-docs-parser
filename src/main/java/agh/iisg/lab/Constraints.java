@@ -12,22 +12,22 @@ public class Constraints {
 
   public static final List<Pattern> splitters = Arrays.asList(
     "\n(?=DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n)",
-    "\n(?=Rozdział ([IVX]|\\d)+\n" + Constraints.UPPERCASE_WORD_REGEX + "\n)",
+    "\n(?=Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n)",
     "\n(?=[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n)",
-    "\n(?=Art\\. \\d+\\.\n)",
-    "\n\\d+\\. ",
-    "\n\\d+\\) ",
+    "\n(?=Art\\. \\d+[a-z]*?\\.\n)",
+    "\n\\d+[a-z]*?\\. ",
+    "\n\\d+[a-z]*?\\) ",
     "\n[a-z]+\\) ",
     "\n- "
   ).stream().map(Pattern::compile).collect(Collectors.toList());
 
   public static final List<Pattern> titleMatchers = Arrays.asList(
     "^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n",
-    "Rozdział ([IVX]|\\d)+\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
+    "Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
     "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
-    "Art\\. \\d+\\.\n",
-    "^\\d+\\. ",
-    "^\\d+\\) ",
+    "^Art\\. \\d+[a-z]*?\\.\n",
+    "\n\\d+[a-z]*?\\. ",
+    "\n\\d+[a-z]*?\\) ",
     "^[a-z]+\\) ",
     "\n- "
   ).stream().map(Pattern::compile).collect(Collectors.toList());

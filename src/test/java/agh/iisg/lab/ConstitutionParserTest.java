@@ -18,6 +18,17 @@ public class ConstitutionParserTest {
   @Test
   public void getPointTest() {
     assertEquals(
+      "1. Krajowa Rada Radiofonii i Telewizji stoi na straży wolności słowa, prawa do informacji oraz interesu publicznego w radiofonii i telewizji.",
+      constitution.getLaw()
+                  .getPartitions().get(0)
+                  .getPartitions().get(9)
+                  .getPartitions().get(2)
+                  .getPartitions().get(0)
+                  .getPartitions().get(0)
+                  .getContent()
+    );
+
+    assertEquals(
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
       constitution.getLaw()
                   .getPartitions().get(0)
@@ -56,8 +67,8 @@ public class ConstitutionParserTest {
                 .flatMap(chapter -> chapter.getPartitions().stream())
                 .flatMap(section -> section.getPartitions().stream())
                 .flatMap(article -> article.getPartitions().stream())
-                .forEach(paragraph ->
-                           assertFalse(paragraph.getContent().matches("\\d+\\. .*"))
+                .forEach(paragraph -> assertFalse(paragraph.getContent()
+                                                           .matches("\\d+[a-z]*?\\. .*"))
                 );
   }
 
@@ -75,5 +86,26 @@ public class ConstitutionParserTest {
                   .flatMap(section -> section.getPartitions().stream())
                   .flatMap(article -> article.getPartitions().stream())
                   .count() - 1);
+  }
+
+  @Test
+  public void chapterTitleTest() {
+    assertEquals(
+      "Rozdział VI\nRADA MINISTRÓW I ADMINISTRACJA RZĄDOWA",
+      constitution.getLaw()
+                  .getPartitions().get(0)
+                  .getPartitions().get(6)
+                  .getTitle());
+  }
+
+  @Test
+  public void sectionTitleTest() {
+    assertEquals(
+      "RZECZNIK PRAW OBYWATELSKICH",
+      constitution.getLaw()
+                  .getPartitions().get(0)
+                  .getPartitions().get(9)
+                  .getPartitions().get(1)
+                  .getTitle());
   }
 }
