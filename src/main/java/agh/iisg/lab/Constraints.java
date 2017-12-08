@@ -26,8 +26,8 @@ public class Constraints {
     "Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
     "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
     "^Art\\. \\d+[a-z]*?\\.\n",
-    "\n\\d+[a-z]*?\\. ",
-    "\n\\d+[a-z]*?\\) ",
+    "\\d+[a-z]*?\\. ",
+    "\\d+[a-z]*?\\) ",
     "^[a-z]+\\) ",
     "\n- "
   ).stream().map(Pattern::compile).collect(Collectors.toList());

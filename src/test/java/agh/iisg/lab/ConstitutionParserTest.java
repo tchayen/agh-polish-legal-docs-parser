@@ -18,7 +18,7 @@ public class ConstitutionParserTest {
   @Test
   public void getPointTest() {
     assertEquals(
-      "1. Krajowa Rada Radiofonii i Telewizji stoi na straży wolności słowa, prawa do informacji oraz interesu publicznego w radiofonii i telewizji.",
+      "Krajowa Rada Radiofonii i Telewizji stoi na straży wolności słowa, prawa do informacji oraz interesu publicznego w radiofonii i telewizji.",
       constitution.getLaw()
                   .getPartitions().get(0)
                   .getPartitions().get(9)
