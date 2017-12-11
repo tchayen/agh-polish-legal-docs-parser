@@ -7,6 +7,7 @@ import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,7 +33,7 @@ public class Main {
   public static void main(String[] args) {
     new Main().read(args);
 
-    List<String> lines = FileLoader.load("assets/konstytucja.txt");
+    List<String> lines = FileLoader.load("assets/uokik.txt");
 
     final Parser parser = new Parser(lines);
 

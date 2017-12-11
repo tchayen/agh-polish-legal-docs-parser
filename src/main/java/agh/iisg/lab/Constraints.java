@@ -23,13 +23,13 @@ public class Constraints {
 
   public static final List<Pattern> titleMatchers = Arrays.asList(
     "^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n",
-    "Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
+    "^Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
     "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
     "^Art\\. \\d+[a-z]*?\\.\n",
-    "\\d+[a-z]*?\\. ",
-    "\\d+[a-z]*?\\) ",
+    "^\\d+[a-z]*?\\. ",
+    "^\\d+[a-z]*?\\) ",
     "^[a-z]+\\) ",
-    "\n- "
+    "^\n- "
   ).stream().map(Pattern::compile).collect(Collectors.toList());
   /**
    * Join lines with words separated by "-".
@@ -38,7 +38,7 @@ public class Constraints {
   /**
    * Replace spaces with new lines in cases where article is followed directly by plain text.
    */
-  public static final Pattern replaceSpaces = Pattern.compile("(?<=Art\\. \\d{1,3}\\.) ");
+  public static final Pattern replaceSpaces = Pattern.compile("(?<=Art\\. \\d{1,3}[a-z]{0,2}\\.) ");
   public static final List<Predicate<String>> filters = Arrays.asList(
     Pattern.compile("©Kancelaria Sejmu( s. \\d+/\\d+)?")
            .asPredicate()
@@ -48,14 +48,14 @@ public class Constraints {
            .negate(),
     line -> line.length() > 1
   );
-  private static final List<String> newLiners = Arrays.asList(
+  public static final List<String> newLiners = Arrays.asList(
     UPPERCASE_WORD_REGEX + "\n",
     "DZIAŁ [IVX]+",
     "Rozdział ([IVX]|\\d)+",
     "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
     "Art\\. \\d+\\.",
-    "\\d+\\. ",
-    "\\d+\\) ",
+    "\\d+[a-z]*?\\. ",
+    "\\d+[a-z]*?\\) ",
     "[a-z]+\\)"
   );
   /**

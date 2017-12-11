@@ -32,18 +32,13 @@ public class Parser {
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
-            this.parse(
-              law,
-              new ArrayList<>(Arrays.asList(
-                new PartitionGenerator(0, null),
-                new PartitionGenerator(1, null),
-                new PartitionGenerator(2, null),
-                new PartitionGenerator(3, articleCounter),
-                new PartitionGenerator(4, null),
-                new PartitionGenerator(5, null),
-                new PartitionGenerator(6, null),
-                new PartitionGenerator(7, null)
-              )));
+
+            ArrayList<PartitionGenerator> generators = new ArrayList<>();
+            for (int i = 0; i < 8; i++) {
+              generators.add(new PartitionGenerator(i, i == 3 ? articleCounter : null));
+            }
+
+            this.parse(law, generators);
           });
   }
 
