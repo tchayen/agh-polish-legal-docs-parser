@@ -31,10 +31,12 @@ public class Constraints {
     "^[a-z]+\\) ",
     "^\n- "
   ).stream().map(Pattern::compile).collect(Collectors.toList());
+
   /**
    * Join lines with words separated by "-".
    */
   public static final Pattern dashedNewline = Pattern.compile("-\n");
+
   /**
    * Replace spaces with new lines in cases where article is followed directly by plain text.
    */
@@ -48,6 +50,7 @@ public class Constraints {
            .negate(),
     line -> line.length() > 1
   );
+
   public static final List<String> newLiners = Arrays.asList(
     UPPERCASE_WORD_REGEX + "\n",
     "DZIAŁ [IVX]+",
@@ -58,6 +61,7 @@ public class Constraints {
     "\\d+[a-z]*?\\) ",
     "[a-z]+\\)"
   );
+
   /**
    * Replace new line with space where it is not followed by one of the non-breaking line beginnings.
    */

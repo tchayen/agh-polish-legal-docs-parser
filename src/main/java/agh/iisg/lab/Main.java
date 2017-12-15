@@ -1,13 +1,13 @@
 package agh.iisg.lab;
 
 import agh.iisg.lab.legal.Legal;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 
@@ -30,10 +30,13 @@ public class Main {
   @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
   private static String mode;
 
+  @Argument
+  private static String fileName = "";
+
   public static void main(String[] args) {
     new Main().read(args);
 
-    List<String> lines = FileLoader.load("assets/uokik.txt");
+    List<String> lines = FileLoader.load(fileName);
 
     final Parser parser = new Parser(lines);
 

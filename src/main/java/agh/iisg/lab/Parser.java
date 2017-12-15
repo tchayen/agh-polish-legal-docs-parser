@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -20,7 +21,7 @@ public class Parser {
   private LegalPartition law;
 
   public Parser(List<String> lines) {
-    Arrays.asList(
+    Stream.of(
       lines.parallelStream()
            .filter(l -> Constraints.filters.stream().allMatch(p -> p.test(l)))
            .map(line -> line + "\n")
@@ -28,7 +29,6 @@ public class Parser {
            .replaceAll(Constraints.dashedNewline.pattern(), "")
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
            .replaceAll(Constraints.replaceSpaces.pattern(), "\n"))
-          .stream()
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
@@ -76,7 +76,6 @@ public class Parser {
             .collect(toList());
     parent.setPartitions(partitions);
 
-    partitions.stream()
-              .forEach(partition -> this.parse(partition, new ArrayList<>(generators)));
+    partitions.forEach(partition -> this.parse(partition, new ArrayList<>(generators)));
   }
 }

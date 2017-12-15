@@ -47,6 +47,26 @@ public class ConstitutionParserTest {
   }
 
   @Test
+  public void titleStoringTest() {
+    assertEquals(
+      "Rozdział X\nFINANSE PUBLICZNE",
+      constitution.getLaw()
+                  .getPartitions().get(0)
+                  .getPartitions().get(10)
+                  .getTitle()
+    );
+
+    assertEquals(
+      "RZECZNIK PRAW OBYWATELSKICH",
+      constitution.getLaw()
+                  .getPartitions().get(0)
+                  .getPartitions().get(9)
+                  .getPartitions().get(1)
+                  .getTitle()
+    );
+
+  }
+  @Test
   public void getArticleTest() {
     Legal p = constitution.getLaw()
                           .getPartitions().get(0)
