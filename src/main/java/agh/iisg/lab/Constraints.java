@@ -5,32 +5,33 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Constraints {
   public static final String UPPERCASE_WORD_REGEX = "[A-ZĘÓĄŚŁŻŹĆŃ, ]+";
   public static final String WORD_REGEX = "[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+";
 
-  public static final List<Pattern> splitters = Arrays.asList(
-    "\n(?=DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n)",
-    "\n(?=Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n)",
-    "\n(?=[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n)",
+  public static final List<Pattern> splitters = Stream.of(
+    "\n(?=DZIAŁ [IVX]+ " + WORD_REGEX + "\n)",
+    "\n(?=Rozdział ([IVX]+|\\d+[a-z]*) " + WORD_REGEX + "\n)",
+    "\n(?=" + UPPERCASE_WORD_REGEX + "+\n)",
     "\n(?=Art\\. \\d+[a-z]*?\\.\n)",
     "\n\\d+[a-z]*?\\. ",
     "\n\\d+[a-z]*?\\) ",
     "\n[a-z]+\\) ",
     "\n- "
-  ).stream().map(Pattern::compile).collect(Collectors.toList());
+  ).map(Pattern::compile).collect(Collectors.toList());
 
-  public static final List<Pattern> titleMatchers = Arrays.asList(
-    "^DZIAŁ [IVX]+\n" + Constraints.WORD_REGEX + "\n",
-    "^Rozdział ([IVX]+|\\d+[a-z]*)\n" + Constraints.UPPERCASE_WORD_REGEX + "\n",
-    "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
+  public static final List<Pattern> titleMatchers = Stream.of(
+    "^DZIAŁ [IVX]+ " + WORD_REGEX + "\n",
+    "^Rozdział ([IVX]+|\\d+[a-z]*) " + WORD_REGEX + "\n",
+    "^"+ WORD_REGEX + "\n",
     "^Art\\. \\d+[a-z]*?\\.\n",
     "^\\d+[a-z]*?\\. ",
     "^\\d+[a-z]*?\\) ",
     "^[a-z]+\\) ",
     "^\n- "
-  ).stream().map(Pattern::compile).collect(Collectors.toList());
+  ).map(Pattern::compile).collect(Collectors.toList());
 
   /**
    * Join lines with words separated by "-".
@@ -52,14 +53,12 @@ public class Constraints {
   );
 
   public static final List<String> newLiners = Arrays.asList(
-    UPPERCASE_WORD_REGEX + "\n",
-    "DZIAŁ [IVX]+",
-    "Rozdział ([IVX]|\\d)+",
-    "^[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+\n",
-    "Art\\. \\d+\\.",
-    "\\d+[a-z]*?\\. ",
-    "\\d+[a-z]*?\\) ",
-    "[a-z]+\\)"
+    "DZIAŁ [IVX]{1,9}",
+    "Rozdział ([IVX]|\\d[a-z]{0,4}){1,9}",
+    "Art\\. \\d{1,4}[a-z]{0,4}\\.",
+    "\\d{1,4}[a-z]{0,4}?\\. ",
+    "\\d{1,4}[a-z]{0,4}?\\) ",
+    "[a-z]{1,4}\\)"
   );
 
   /**
@@ -67,4 +66,7 @@ public class Constraints {
    */
   public static final Pattern skipNewlines = Pattern.compile(
     "\n(?!" + newLiners.stream().reduce((a, b) -> a + "|" + b).orElse("") + ")");
+
+  public static final Pattern moveUpConstitutionChapterTitles = Pattern.compile(
+    "(?<=Rozdział [IVX]{1,9})\n(?=" + UPPERCASE_WORD_REGEX + ")");
 }

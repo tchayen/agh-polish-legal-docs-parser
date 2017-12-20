@@ -22,7 +22,7 @@ public class ConstitutionParserTest {
       "Krajowa Rada Radiofonii i Telewizji stoi na straży wolności słowa, prawa do informacji oraz interesu publicznego w radiofonii i telewizji.",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(9)
+                  .getPartitions().get(7)
                   .getPartitions().get(2)
                   .getPartitions().get(0)
                   .getPartitions().get(0)
@@ -33,7 +33,7 @@ public class ConstitutionParserTest {
       "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(10)
+                  .getPartitions().get(9)
                   .getPartitions().get(0)
                   .getPartitions().get(3)
                   .getPartitions().get(1)
@@ -49,10 +49,10 @@ public class ConstitutionParserTest {
   @Test
   public void titleStoringTest() {
     assertEquals(
-      "Rozdział X\nFINANSE PUBLICZNE",
+      "Rozdział X FINANSE PUBLICZNE",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(10)
+                  .getPartitions().get(9)
                   .getTitle()
     );
 
@@ -60,7 +60,7 @@ public class ConstitutionParserTest {
       "RZECZNIK PRAW OBYWATELSKICH",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(9)
+                  .getPartitions().get(8)
                   .getPartitions().get(1)
                   .getTitle()
     );
@@ -74,10 +74,13 @@ public class ConstitutionParserTest {
                           .getPartitions().get(0)
                           .getPartitions().get(6);
 
-    assertEquals("Art. 152.\n" +
-                   "1. Przedstawicielem Rady Ministrów w województwie jest wojewoda.\n" +
-                   "2. Tryb powoływania i odwoływania oraz zakres działania wojewodów określa ustawa.",
-                 p.getTitle() + "\n" + p.getContent()
+    assertEquals(
+      "Art. 169.\n" +
+      "1. Jednostki samorządu terytorialnego wykonują swoje zadania za pośrednictwem organów stanowiących i wykonawczych.\n" +
+      "2. Wybory do organów stanowiących są powszechne, równe, bezpośrednie i odbywają się w głosowaniu tajnym. Zasady i tryb zgłaszania kandydatów i przeprowadzania wyborów oraz warunki ważności wyborów określa ustawa.\n" +
+      "3. Zasady i tryb wyborów oraz odwoływania organów wykonawczych jednostek samorządu terytorialnego określa ustawa.\n" +
+      "4. Ustrój wewnętrzny jednostek samorządu terytorialnego określają, w granicach ustaw, ich organy stanowiące.",
+      p.getTitle() + "\n" + p.getContent()
     );
   }
 
@@ -117,10 +120,10 @@ public class ConstitutionParserTest {
   @Test
   public void chapterTitleTest() {
     assertEquals(
-      "Rozdział VI\nRADA MINISTRÓW I ADMINISTRACJA RZĄDOWA",
+      "Rozdział VI RADA MINISTRÓW I ADMINISTRACJA RZĄDOWA",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(6)
+                  .getPartitions().get(5)
                   .getTitle());
   }
 
@@ -130,7 +133,7 @@ public class ConstitutionParserTest {
       "RZECZNIK PRAW OBYWATELSKICH",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(9)
+                  .getPartitions().get(8)
                   .getPartitions().get(1)
                   .getTitle());
   }

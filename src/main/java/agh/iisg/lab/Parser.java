@@ -28,11 +28,13 @@ public class Parser {
            .reduce("", String::concat)
            .replaceAll(Constraints.dashedNewline.pattern(), "")
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
-           .replaceAll(Constraints.replaceSpaces.pattern(), "\n"))
+           .replaceAll(Constraints.replaceSpaces.pattern(), "\n")
+//           .replaceAll(Constraints.moveUpConstitutionChapterTitles.pattern(), " ")
+          )
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
-
+            law.setContent(law.getContent().split("\n", 2)[1]);
             ArrayList<PartitionGenerator> generators = new ArrayList<>();
             for (int i = 0; i < 8; i++) {
               generators.add(new PartitionGenerator(i, i == 3 ? articleCounter : null));
@@ -69,7 +71,8 @@ public class Parser {
                 raw = raw.replaceFirst(foundTitle, "");
                 partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
               }
-
+//              String[] split = raw.split("\n", 2);
+//              partition.setTitle(split[0]);
               partition.setContent(raw);
               return partition;
             })
