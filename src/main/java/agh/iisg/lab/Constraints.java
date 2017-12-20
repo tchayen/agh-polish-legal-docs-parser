@@ -67,7 +67,4 @@ public class Constraints {
    */
   public static final Pattern skipNewlines = Pattern.compile(
     "\n(?!" + newLiners.stream().reduce((a, b) -> a + "|" + b).orElse("") + ")");
-
-  public static final Pattern moveUpConstitutionChapterTitles = Pattern.compile(
-    "(?<=Rozdział [IVX]{1,9})\n(?=" + UPPERCASE_WORD_REGEX + ")");
 }

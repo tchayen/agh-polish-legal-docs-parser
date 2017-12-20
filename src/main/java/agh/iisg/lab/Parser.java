@@ -29,12 +29,17 @@ public class Parser {
            .replaceAll(Constraints.dashedNewline.pattern(), "")
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
            .replaceAll(Constraints.replaceSpaces.pattern(), "\n")
-//           .replaceAll(Constraints.moveUpConstitutionChapterTitles.pattern(), " ")
           )
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
-            law.setContent(law.getContent().split("\n", 5)[4]);
+
+            if (law.getContent().startsWith("KONSTYTUCJA")) {
+              law.setContent(law.getContent().split("\n", 5)[4]);
+            } else {
+              law.setContent(law.getContent().split("\n", 3)[2]);
+            }
+
             ArrayList<PartitionGenerator> generators = new ArrayList<>();
             for (int i = 0; i < 8; i++) {
               generators.add(new PartitionGenerator(i, i == 3 ? articleCounter : null));
