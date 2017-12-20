@@ -19,21 +19,21 @@ public class ConstitutionParserTest {
   @Test
   public void getPointTest() {
     assertEquals(
-      "Krajowa Rada Radiofonii i Telewizji stoi na straży wolności słowa, prawa do informacji oraz interesu publicznego w radiofonii i telewizji.",
+      "Trybunał Konstytucyjny rozstrzyga spory kompetencyjne pomiędzy centralnymi konstytucyjnymi organami państwa.",
       constitution.getLaw()
                   .getPartitions().get(0)
                   .getPartitions().get(7)
                   .getPartitions().get(2)
-                  .getPartitions().get(0)
+                  .getPartitions().get(1)
                   .getPartitions().get(0)
                   .getContent()
     );
 
     assertEquals(
-      "Zasady i tryb opracowania projektu budżetu państwa, stopień jego szczegółowości oraz wymagania, którym powinien odpowiadać projekt ustawy budżetowej, a także zasady i tryb wykonywania ustawy budżetowej określa ustawa.",
+      "Prezes Najwyższej Izby Kontroli nie może zajmować innego stanowiska, z wyjątkiem stanowiska profesora szkoły wyższej, ani wykonywać innych zajęć zawodowych.",
       constitution.getLaw()
                   .getPartitions().get(0)
-                  .getPartitions().get(9)
+                  .getPartitions().get(8)
                   .getPartitions().get(0)
                   .getPartitions().get(3)
                   .getPartitions().get(1)
@@ -114,7 +114,7 @@ public class ConstitutionParserTest {
                   .stream()
                   .flatMap(section -> section.getPartitions().stream())
                   .flatMap(article -> article.getPartitions().stream())
-                  .count() - 1);
+                  .count());
   }
 
   @Test

@@ -34,7 +34,7 @@ public class Parser {
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
-            law.setContent(law.getContent().split("\n", 2)[1]);
+            law.setContent(law.getContent().split("\n", 5)[4]);
             ArrayList<PartitionGenerator> generators = new ArrayList<>();
             for (int i = 0; i < 8; i++) {
               generators.add(new PartitionGenerator(i, i == 3 ? articleCounter : null));

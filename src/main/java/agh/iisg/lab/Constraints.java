@@ -55,6 +55,7 @@ public class Constraints {
   public static final List<String> newLiners = Arrays.asList(
     "DZIAŁ [IVX]{1,9}",
     "Rozdział ([IVX]|\\d[a-z]{0,4}){1,9}",
+    "(?<!Rozdział [IVX]{1,9}\n)" + UPPERCASE_WORD_REGEX,
     "Art\\. \\d{1,4}[a-z]{0,4}\\.",
     "\\d{1,4}[a-z]{0,4}?\\. ",
     "\\d{1,4}[a-z]{0,4}?\\) ",
