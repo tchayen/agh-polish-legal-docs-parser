@@ -53,10 +53,7 @@ public class Constraints {
   );
 
   public static final List<String> newLiners = Arrays.asList(
-    "DZIAŁ [IVX]{1,9}",
-    "Rozdział ([IVX]|\\d[a-z]{0,4}){1,9}",
     "(?<!Rozdział [IVX]{1,9}\n)" + UPPERCASE_WORD_REGEX,
-    "Art\\. \\d{1,4}[a-z]{0,4}\\.",
     "\\d{1,4}[a-z]{0,4}?\\. ",
     "\\d{1,4}[a-z]{0,4}?\\) ",
     "[a-z]{1,4}\\)"
@@ -66,5 +63,10 @@ public class Constraints {
    * Replace new line with space where it is not followed by one of the non-breaking line beginnings.
    */
   public static final Pattern skipNewlines = Pattern.compile(
-    "\n(?!" + newLiners.stream().reduce((a, b) -> a + "|" + b).orElse("") + ")");
+    "\n(?!" + newLiners.stream().reduce((a, b) -> a + "|" + b).orElse("") + ")"
+  );
+
+  public static final Pattern joinTitles = Pattern.compile(
+    "(?<=DZIAŁ [IVX]{1,9}|Rozdział \\d{1,4}[a-z]{0,4})\n"
+  );
 }

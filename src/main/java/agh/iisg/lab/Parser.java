@@ -29,6 +29,7 @@ public class Parser {
            .replaceAll(Constraints.dashedNewline.pattern(), "")
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
            .replaceAll(Constraints.replaceSpaces.pattern(), "\n")
+           .replaceAll(Constraints.joinTitles.pattern(), " ")
           )
           .map(LegalPartition::new)
           .forEach(law -> {
@@ -76,8 +77,6 @@ public class Parser {
                 raw = raw.replaceFirst(foundTitle, "");
                 partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
               }
-//              String[] split = raw.split("\n", 2);
-//              partition.setTitle(split[0]);
               partition.setContent(raw);
               return partition;
             })
