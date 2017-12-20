@@ -101,9 +101,6 @@ public class ConstitutionParserTest {
                 );
   }
 
-  /**
-   * -1 because preamble should be skipped.
-   */
   @Test
   public void articleCountTest() {
     assertEquals(
