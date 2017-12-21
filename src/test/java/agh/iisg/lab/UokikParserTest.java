@@ -1,10 +1,8 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

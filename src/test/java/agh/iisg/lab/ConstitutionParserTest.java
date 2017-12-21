@@ -1,6 +1,5 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

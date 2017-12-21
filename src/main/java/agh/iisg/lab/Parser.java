@@ -1,12 +1,11 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.LegalPartition;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -42,12 +41,12 @@ public class Parser {
               law.setContent(law.getContent().split("\n", 3)[2]);
             }
 
-            ArrayList<PartitionGenerator> generators = new ArrayList<>();
-            for (int i = 0; i < 8; i++) {
-              generators.add(new PartitionGenerator(i, i == 3 ? articleCounter : null));
-            }
-
-            this.parse(law, generators);
+            this.parse(law, IntStream.range(0, 8)
+                                     .collect(
+                                       ArrayList::new,
+                                       ArrayList::add,
+                                       ArrayList::addAll
+                                     ));
 
             chapters = this.law.getPartitions()
                                .stream()
@@ -56,12 +55,12 @@ public class Parser {
                                .collect(toList());
 
             articles = this.law
-                    .getPartitions()
-                    .stream()
-                    .flatMap(division -> division.getPartitions().stream())
-                    .flatMap(chapter -> chapter.getPartitions().stream())
-                    .flatMap(section -> section.getPartitions().stream())
-                    .collect(toList());
+              .getPartitions()
+              .stream()
+              .flatMap(division -> division.getPartitions().stream())
+              .flatMap(chapter -> chapter.getPartitions().stream())
+              .flatMap(section -> section.getPartitions().stream())
+              .collect(toList());
           });
   }
 
@@ -80,26 +79,24 @@ public class Parser {
   /**
    * Recursively parse legal partitions using given list of generators.
    *
-   * @param parent     parent object.
-   * @param generators List<PartitionGenerators> providing constructor-lambdas, regex patterns and instance counters.
+   * @param parent  parent object.
+   * @param indices List<Integer> providing indexes of partitions.
    */
-  private void parse(LegalPartition parent, ArrayList<PartitionGenerator> generators) {
-    if (generators.size() == 0) return;
+  private void parse(LegalPartition parent, ArrayList<Integer> indices) {
+    if (indices.size() == 0) return;
 
-    PartitionGenerator generator = generators.remove(0);
+    Integer index = indices.remove(0);
     List<LegalPartition> partitions =
-      Arrays.stream(parent.getContent().split(Constraints.splitters.get(generator.getIndex()).pattern()))
+      Arrays.stream(parent.getContent().split(Constraints.splitters.get(index).pattern()))
             .filter(line -> !line.isEmpty())
             .map(raw -> {
               LegalPartition partition = new LegalPartition();
-              partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
-
-              Matcher title = Constraints.titleMatchers.get(generator.getIndex()).matcher(raw);
+              Matcher title = Constraints.titleMatchers.get(index).matcher(raw);
               if (title.find()) {
                 String foundTitle = title.group(0);
                 raw = raw.replaceFirst(foundTitle, "");
                 partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
-                Matcher number = Constraints.numberExtractors.get(generator.getIndex()).matcher(title.group(0));
+                Matcher number = Constraints.numberExtractors.get(index).matcher(title.group(0));
                 if (number.find()) partition.setNumber(number.group(0));
               }
               partition.setContent(raw);
@@ -108,6 +105,6 @@ public class Parser {
             .collect(toList());
     parent.setPartitions(partitions);
 
-    partitions.forEach(partition -> this.parse(partition, new ArrayList<>(generators)));
+    partitions.forEach(partition -> this.parse(partition, new ArrayList<>(indices)));
   }
 }
