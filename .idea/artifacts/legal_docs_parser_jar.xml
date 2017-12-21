@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="legal-docs-parser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/legal_docs_parser_jar</output-path>
+    <root id="archive" name="legal-docs-parser.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="legal-docs-parser" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/args4j/args4j/2.33/bd87a75374a6d6523de82fef51fc3cfe9baf9fc9/args4j-2.33.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
