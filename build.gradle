@@ -1,6 +1,5 @@
 group 'legal-docs-parser'
-version '1.0-SNAPSHOT'
-
+version = '0.1'
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
@@ -9,13 +8,13 @@ repositories {
     mavenCentral()
 }
 
-task produceJar(type: Jar) {
+task artifact(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Legal docs parser',
                 'Implementation-Version': version,
                 'Main-Class': 'agh.iisg.lab.Main'
     }
-    baseName = project.name + '-all'
+    archiveName = "lpars.jar"
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }

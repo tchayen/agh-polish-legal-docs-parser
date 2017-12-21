@@ -4,5 +4,5 @@ build/
 gradle/
 gradlew
 gradlew.bat
-workspace.xml
-uiDesigner.xml
+.idea/workspace.xml
+.idea/uiDesigner.xml

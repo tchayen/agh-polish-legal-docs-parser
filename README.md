@@ -37,7 +37,7 @@ First (and the only expected) non-option arguement is assumed to be a filename.
 ## Example of usage
 Start with command:
 ```bash
-java -jar legal-docs-parser.jar assets/uokik.txt
+java -jar lpars.jar assets/uokik.txt ...
 ```
 then choose provide parameters:
 ```
@@ -49,7 +49,11 @@ then choose provide parameters:
 **NOTE:**
 Due to questionable consistence, make sure you provide numbers in exactly the same format as in the source document (roman/arabic numerals).
 ## Running
-Not yet
-
-## Contributing
-Better not
+In order to quickly produce `*.jar` archive, type the following (requires Gradle installed):
+```bash
+gradle clean
+gradle artifact
+cp ./build/libs/lpars.jar . # Copy jar out of the build directory.
+java -jar lpars.jar ...args
+```
+The `.idea` directory is also provided, allowing (hopefully) to easily run tests and build application. The builds are stored in `/out`. Also include artifact (i.e. jar) generation to `/out/artifacts`.
