@@ -10,9 +10,6 @@ import static java.util.stream.Collectors.toList;
 public class Parser {
   private Partition law;
 
-  private List<Partition> chapters;
-  private Map<String, Partition> resolveChapters = new HashMap<>();
-
   private List<Partition> articles;
   private Map<String, Partition> resolveArticles = new HashMap<>();
 
@@ -38,11 +35,6 @@ public class Parser {
 
       this.parse(law, IntStream.range(0, 8).collect(
         ArrayList::new, ArrayList::add, ArrayList::addAll));
-
-      chapters = this.law.getPartitions().stream()
-                         .flatMap(division -> division.getPartitions().stream())
-                         .collect(toList());
-      chapters.forEach(c -> resolveChapters.put(c.getTitle(), c));
 
       articles = this.law
         .getPartitions()
@@ -91,14 +83,6 @@ public class Parser {
 
   public Partition getLaw() {
     return law;
-  }
-
-  public List<Partition> getChapters() {
-    return chapters;
-  }
-
-  public Partition getChapter(String title) {
-    return resolveChapters.get(title);
   }
 
   public List<Partition> getArticles() {

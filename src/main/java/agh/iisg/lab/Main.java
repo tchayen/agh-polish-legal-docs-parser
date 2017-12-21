@@ -13,6 +13,12 @@ public class Main {
   @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
   private static String mode;
 
+  @Option(name = "-d", aliases = {"--division"}, usage = "Specify division to show.")
+  private static String division;
+
+  @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
+  private static String chapter;
+
   @Option(name = "-a", aliases = {"--article"}, usage = "Specify article to show.")
   private static String article;
 
@@ -31,9 +37,6 @@ public class Main {
   @Option(name = "-t", aliases = {"--articles-to"}, usage = "Specify end of the range (inclusive).")
   private static String articlesTo;
 
-  @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
-  private static String chapter;
-
   @Argument
   private static String fileName = "";
 
@@ -45,6 +48,7 @@ public class Main {
     parser = new Parser(lines);
 
     checkMode();
+    printTableOfContents();
     printChapter();
     printDetails();
     printRange();
@@ -61,10 +65,48 @@ public class Main {
     }
   }
 
+  private static void printTableOfContents() {
+    if (!mode.equals("table") && !mode.equals("table_of_contents")) return;
+
+    if (division == null) {
+      parser.getLaw()
+            .getPartitions()
+            .forEach(division -> {
+              if (division.getTitle() != null)
+                System.out.println(division.getTitle());
+              division.getPartitions().forEach(
+                chapter -> {
+                  if (chapter.getTitle() != null) {
+                    if (division.getTitle() != null) System.out.print("    ");
+                    System.out.print(chapter.getTitle() + "\n");
+                  }
+                });
+            });
+    }
+  }
+
   private static void printChapter() {
+    if (mode.equals("table") || mode.equals("table_of_contents")) return;
+    if (parser.getLaw().getPartitions().size() != 1 &&
+      division == null) {
+      System.out.println("You must specify division in so program can " +
+                           "recognize chapter.");
+      System.exit(1);
+    }
     if (chapter == null) return;
-    Partition c = parser.getChapter(chapter);
+
+    Partition c = null;
+    if (division == null) {
+      c = parser.getLaw().getPartitions().get(0).getPartition(chapter);
+    } else {
+      Partition d = parser.getLaw().getPartition(division);
+      if (d != null) c = d.getPartition(chapter);
+    }
     if (c != null) print(c);
+    else {
+      System.out.println("Couldn't find chapter. Make you did not specify " +
+                           "division in a law which does not have them (or otherwise");
+    }
   }
 
   private static void printDetails() {
