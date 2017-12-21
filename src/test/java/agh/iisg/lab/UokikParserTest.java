@@ -1,6 +1,5 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Legal;
 import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class UokikParserTest {
 
   @Test
   public void articleCountTest() {
-    List<Legal> articles = uokik.getLaw()
+    List<LegalPartition> articles = uokik.getLaw()
                                 .getPartitions()
                                 .stream()
                                 .flatMap(division -> division.getPartitions().stream())

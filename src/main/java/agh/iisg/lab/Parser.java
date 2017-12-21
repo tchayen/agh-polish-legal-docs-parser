@@ -1,6 +1,5 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Legal;
 import agh.iisg.lab.legal.LegalPartition;
 
 import java.util.ArrayList;
@@ -19,8 +18,8 @@ public class Parser {
   private AtomicInteger articleCounter = new AtomicInteger(-1);
 
   private LegalPartition law;
-  private List<Legal> chapters;
-  private List<Legal> articles;
+  private List<LegalPartition> chapters;
+  private List<LegalPartition> articles;
 
   public Parser(List<String> lines) {
     Stream.of(
@@ -66,15 +65,15 @@ public class Parser {
           });
   }
 
-  public Legal getLaw() {
+  public LegalPartition getLaw() {
     return law;
   }
 
-  public List<Legal> getChapters() {
+  public List<LegalPartition> getChapters() {
     return chapters;
   }
 
-  public List<Legal> getArticles() {
+  public List<LegalPartition> getArticles() {
     return articles;
   }
 
@@ -84,15 +83,15 @@ public class Parser {
    * @param parent     parent object.
    * @param generators List<PartitionGenerators> providing constructor-lambdas, regex patterns and instance counters.
    */
-  private void parse(Legal parent, ArrayList<PartitionGenerator> generators) {
+  private void parse(LegalPartition parent, ArrayList<PartitionGenerator> generators) {
     if (generators.size() == 0) return;
 
     PartitionGenerator generator = generators.remove(0);
-    List<Legal> partitions =
+    List<LegalPartition> partitions =
       Arrays.stream(parent.getContent().split(Constraints.splitters.get(generator.getIndex()).pattern()))
             .filter(line -> !line.isEmpty())
             .map(raw -> {
-              Legal partition = new LegalPartition();
+              LegalPartition partition = new LegalPartition();
               partition.setNumber(Integer.toString(generator.getCounter().incrementAndGet()));
 
               Matcher title = Constraints.titleMatchers.get(generator.getIndex()).matcher(raw);

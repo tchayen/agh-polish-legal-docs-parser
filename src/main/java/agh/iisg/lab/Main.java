@@ -52,12 +52,22 @@ public class Main {
     }
 
     if (article != null) {
-      parser.getArticles().forEach(a -> {
-        if (a.getNumber().equals(article)) {
-          System.out.println(a.getTitle());
-          System.out.println(a.getContent());
+      if (letter != null) {
+        if (point != null && paragraph != null) {
+
         }
-      });
+      } else if (point != null) {
+
+      } else if (paragraph != null) {
+
+      } else {
+        parser.getArticles().forEach(a -> {
+          if (a.getNumber().equals(article)) {
+            System.out.println(a.getTitle());
+            System.out.println(a.getContent());
+          }
+        });
+      }
     }
 
     if (articlesFrom != null && articlesTo != null) {

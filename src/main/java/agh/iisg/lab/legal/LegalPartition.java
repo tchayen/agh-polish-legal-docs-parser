@@ -3,11 +3,12 @@ package agh.iisg.lab.legal;
 import java.util.List;
 import java.util.Optional;
 
-public class LegalPartition implements Legal {
+public class LegalPartition {
   protected String content;
-  protected List<Legal> partitions;
+  protected List<LegalPartition> partitions;
   private Optional<String> number;
   private Optional<String> title;
+//  Map<String, Legal>
 
   public LegalPartition() {
   }
@@ -24,11 +25,11 @@ public class LegalPartition implements Legal {
     this.content = content;
   }
 
-  public List<Legal> getPartitions() {
+  public List<LegalPartition> getPartitions() {
     return partitions;
   }
 
-  public void setPartitions(List<Legal> partitions) {
+  public void setPartitions(List<LegalPartition> partitions) {
     this.partitions = partitions;
   }
 

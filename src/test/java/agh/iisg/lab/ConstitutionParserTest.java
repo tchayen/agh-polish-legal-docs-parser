@@ -1,6 +1,6 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Legal;
+import agh.iisg.lab.legal.LegalPartition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -68,11 +68,11 @@ public class ConstitutionParserTest {
   }
   @Test
   public void getArticleTest() {
-    Legal p = constitution.getLaw()
-                          .getPartitions().get(0)
-                          .getPartitions().get(6)
-                          .getPartitions().get(0)
-                          .getPartitions().get(6);
+    LegalPartition p = constitution.getLaw()
+                                   .getPartitions().get(0)
+                                   .getPartitions().get(6)
+                                   .getPartitions().get(0)
+                                   .getPartitions().get(6);
 
     assertEquals(
       "Art. 169.\n" +
