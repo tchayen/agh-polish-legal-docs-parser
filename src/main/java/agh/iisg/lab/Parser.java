@@ -19,6 +19,8 @@ public class Parser {
   private AtomicInteger articleCounter = new AtomicInteger(-1);
 
   private LegalPartition law;
+  private List<Legal> chapters;
+  private List<Legal> articles;
 
   public Parser(List<String> lines) {
     Stream.of(
@@ -30,7 +32,7 @@ public class Parser {
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
            .replaceAll(Constraints.replaceSpaces.pattern(), "\n")
            .replaceAll(Constraints.joinTitles.pattern(), " ")
-          )
+    )
           .map(LegalPartition::new)
           .forEach(law -> {
             this.law = law;
@@ -47,11 +49,33 @@ public class Parser {
             }
 
             this.parse(law, generators);
+
+            chapters = this.law.getPartitions()
+                               .stream()
+                               .flatMap(division -> division.getPartitions()
+                                                            .stream())
+                               .collect(toList());
+
+            articles = this.law
+                    .getPartitions()
+                    .stream()
+                    .flatMap(division -> division.getPartitions().stream())
+                    .flatMap(chapter -> chapter.getPartitions().stream())
+                    .flatMap(section -> section.getPartitions().stream())
+                    .collect(toList());
           });
   }
 
   public Legal getLaw() {
     return law;
+  }
+
+  public List<Legal> getChapters() {
+    return chapters;
+  }
+
+  public List<Legal> getArticles() {
+    return articles;
   }
 
   /**
@@ -76,6 +100,8 @@ public class Parser {
                 String foundTitle = title.group(0);
                 raw = raw.replaceFirst(foundTitle, "");
                 partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
+                Matcher number = Constraints.numberExtractors.get(generator.getIndex()).matcher(title.group(0));
+                if (number.find()) partition.setNumber(number.group(0));
               }
               partition.setContent(raw);
               return partition;

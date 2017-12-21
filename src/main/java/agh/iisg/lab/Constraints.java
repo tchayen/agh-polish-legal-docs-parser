@@ -33,6 +33,17 @@ public class Constraints {
     "^\n- "
   ).map(Pattern::compile).collect(Collectors.toList());
 
+  public static final List<Pattern> numberExtractors = Stream.of(
+    "(?<=DZIAŁ )[IVX]+",
+    "(?<=Rozdział )([IVX]+|\\d{1,4}[a-z]{0,4})",
+    "",
+    "(?<=Art\\. )\\d{1,4}[a-z]{0,4}?(?=\\.)",
+    "\\d{1,4}[a-z]{0,4}(?=\\. )",
+    "\\d{1,4}[a-z]{0,4}(?=\\) )",
+    "[a-z]{1,4}(?=\\) )",
+    "^\n- "
+  ).map(Pattern::compile).collect(Collectors.toList());
+
   /**
    * Join lines with words separated by "-".
    */

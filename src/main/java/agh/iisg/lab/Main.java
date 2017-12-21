@@ -1,19 +1,27 @@
 package agh.iisg.lab;
 
-import agh.iisg.lab.legal.Legal;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 public class Main {
+  @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
+  private static String mode;
+
   @Option(name = "-a", aliases = {"--article"}, usage = "Specify article to show.")
-  private static Integer article;
+  private static String article;
+
+  @Option(name = "-P", aliases = {"--paragraph"}, usage = "Specify paragraph to show.")
+  private static String paragraph;
+
+  @Option(name = "-p", aliases = {"--point"}, usage = "Specify point to show.")
+  private static String point;
+
+  @Option(name = "-letter", aliases = {"--letter"}, usage = "Specify letter to show.")
+  private static String letter;
 
   @Option(name = "-f", aliases = {"--articles-from"}, usage = "Specify article range start to show.")
   private static Integer articlesFrom;
@@ -22,13 +30,7 @@ public class Main {
   private static Integer articlesTo;
 
   @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
-  private static Integer chapter;
-
-  @Option(name = "-d", aliases = {"--division"}, usage = "Specify division to display.")
-  private static Integer division;
-
-  @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
-  private static String mode;
+  private static String chapter;
 
   @Argument
   private static String fileName = "";
@@ -40,27 +42,35 @@ public class Main {
 
     final Parser parser = new Parser(lines);
 
-    List<Legal> articles = new ArrayList<>(
-      parser.getLaw()
-            .getPartitions()
-            .stream()
-            .flatMap(section -> section.getPartitions().stream())
-            .flatMap(article -> article.getPartitions().stream())
-            .collect(toList()));
-
-    articles.remove(0);
+    if (mode != null &&
+      !mode.equals("table") &&
+      !mode.equals("table_of_contents") &&
+      !mode.equals("show")) {
+      System.out.println("Incorrect mode: choose between 'table of contents'" +
+                           " ('table' in short) or 'show' (empty default to it).");
+      System.exit(1);
+    }
 
     if (article != null) {
-      System.out.println(articles.get(article - 1).getContent());
+      parser.getArticles().forEach(a -> {
+        if (a.getNumber().equals(article)) {
+          System.out.println(a.getTitle());
+          System.out.println(a.getContent());
+        }
+      });
     }
 
     if (articlesFrom != null && articlesTo != null) {
-      articles.subList(articlesFrom, articlesTo)
-              .forEach(System.out::println);
+      parser.getArticles().subList(articlesFrom, articlesTo)
+            .forEach(System.out::println);
     }
 
     if (chapter != null) {
-      System.out.println(parser.getLaw().getPartitions().get(chapter).getContent());
+      parser.getChapters().forEach(c -> {
+        if (c.getNumber().equals(chapter)) {
+          System.out.println(c.getContent());
+        }
+      });
     }
   }
 
@@ -70,9 +80,6 @@ public class Main {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
-      return;
     }
-
-    System.out.println(article);
   }
 }

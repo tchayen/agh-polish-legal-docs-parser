@@ -12,7 +12,8 @@ public class FileLoader {
     try {
       lines = Files.readAllLines(Paths.get(path));
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("Couldn't open file with path: \"" + path + "\".");
+      System.exit(1);
     }
     return lines;
   }
