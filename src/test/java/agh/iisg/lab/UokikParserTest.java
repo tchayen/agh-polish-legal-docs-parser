@@ -19,12 +19,12 @@ public class UokikParserTest {
 
   @Test
   public void articleCountTest() {
-    List<LegalPartition> articles = uokik.getLaw()
-                                .getPartitions()
-                                .stream()
-                                .flatMap(division -> division.getPartitions().stream())
-                                .flatMap(chapter -> chapter.getPartitions().stream())
-                                .flatMap(article -> article.getPartitions().stream()).collect(toList());
+    List<Partition> articles = uokik.getLaw()
+                                    .getPartitions()
+                                    .stream()
+                                    .flatMap(division -> division.getPartitions().stream())
+                                    .flatMap(chapter -> chapter.getPartitions().stream())
+                                    .flatMap(article -> article.getPartitions().stream()).collect(toList());
 
     assertEquals(
       177,

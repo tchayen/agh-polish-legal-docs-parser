@@ -67,11 +67,11 @@ public class ConstitutionParserTest {
   }
   @Test
   public void getArticleTest() {
-    LegalPartition p = constitution.getLaw()
-                                   .getPartitions().get(0)
-                                   .getPartitions().get(6)
-                                   .getPartitions().get(0)
-                                   .getPartitions().get(6);
+    Partition p = constitution.getLaw()
+                              .getPartitions().get(0)
+                              .getPartitions().get(6)
+                              .getPartitions().get(0)
+                              .getPartitions().get(6);
 
     assertEquals(
       "Art. 169.\n" +
