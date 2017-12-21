@@ -151,7 +151,6 @@ public class Main {
       letter == null;
 
     if (areDetailsEmpty && articlesFrom != null && articlesTo != null) {
-      // FIX: why does it print only first line?
       parser.getArticleRange(articlesFrom, articlesTo).forEach(article -> {
         System.out.println(article.getTitle());
         System.out.println(article.getContent());

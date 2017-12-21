@@ -75,10 +75,6 @@ public class Parser {
               return partition;
             })
             .collect(toList());
-    // NOTE: 4 is an arbitrary number allowing us to assume that structure
-    // can get inconsistent deeper in the hierarchy from now on.
-//    if (indices.size() < 4 && !partitions.stream().allMatch(p -> p.getTitle() != null)) return;
-
     parent.setPartitions(partitions);
     partitions.forEach(partition -> this.parse(partition, new ArrayList<>(indices)));
   }
