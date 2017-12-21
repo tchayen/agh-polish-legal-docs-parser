@@ -105,6 +105,14 @@ public class Parser {
     return articles;
   }
 
+  public List<Partition> getArticleRange(String from, String to) {
+    int i = 0;
+    while (!articles.get(i).getNumber().equals(from) && i < articles.size()) i++;
+    int j = 0;
+    while (!articles.get(j).getNumber().equals(to) && j < articles.size()) j++;
+    return articles.subList(i, j + 1);
+  }
+
   public Partition getArticle(String title) {
     return resolveArticles.get(title);
   }

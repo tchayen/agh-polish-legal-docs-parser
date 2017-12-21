@@ -3,9 +3,7 @@ package agh.iisg.lab;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ConstitutionParserTest {
   private static Parser constitution;
@@ -65,6 +63,7 @@ public class ConstitutionParserTest {
     );
 
   }
+
   @Test
   public void getArticleTest() {
     Partition p = constitution.getLaw()
@@ -75,10 +74,10 @@ public class ConstitutionParserTest {
 
     assertEquals(
       "Art. 169.\n" +
-      "1. Jednostki samorządu terytorialnego wykonują swoje zadania za pośrednictwem organów stanowiących i wykonawczych.\n" +
-      "2. Wybory do organów stanowiących są powszechne, równe, bezpośrednie i odbywają się w głosowaniu tajnym. Zasady i tryb zgłaszania kandydatów i przeprowadzania wyborów oraz warunki ważności wyborów określa ustawa.\n" +
-      "3. Zasady i tryb wyborów oraz odwoływania organów wykonawczych jednostek samorządu terytorialnego określa ustawa.\n" +
-      "4. Ustrój wewnętrzny jednostek samorządu terytorialnego określają, w granicach ustaw, ich organy stanowiące.",
+        "1. Jednostki samorządu terytorialnego wykonują swoje zadania za pośrednictwem organów stanowiących i wykonawczych.\n" +
+        "2. Wybory do organów stanowiących są powszechne, równe, bezpośrednie i odbywają się w głosowaniu tajnym. Zasady i tryb zgłaszania kandydatów i przeprowadzania wyborów oraz warunki ważności wyborów określa ustawa.\n" +
+        "3. Zasady i tryb wyborów oraz odwoływania organów wykonawczych jednostek samorządu terytorialnego określa ustawa.\n" +
+        "4. Ustrój wewnętrzny jednostek samorządu terytorialnego określają, w granicach ustaw, ich organy stanowiące.",
       p.getTitle() + "\n" + p.getContent()
     );
   }

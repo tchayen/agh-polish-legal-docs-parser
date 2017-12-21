@@ -3,7 +3,6 @@ package agh.iisg.lab;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class Partition {
   private String content;
@@ -23,12 +22,12 @@ public class Partition {
     return content;
   }
 
-  Partition getPartition(String title) {
-    return resolveTitles.get(title);
-  }
-
   public void setContent(String content) {
     this.content = content;
+  }
+
+  Partition getPartition(String title) {
+    return resolveTitles.get(title);
   }
 
   public List<Partition> getPartitions() {

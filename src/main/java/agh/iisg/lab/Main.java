@@ -26,10 +26,10 @@ public class Main {
   private static String letter;
 
   @Option(name = "-f", aliases = {"--articles-from"}, usage = "Specify article range start to show.")
-  private static Integer articlesFrom;
+  private static String articlesFrom;
 
   @Option(name = "-t", aliases = {"--articles-to"}, usage = "Specify end of the range (inclusive).")
-  private static Integer articlesTo;
+  private static String articlesTo;
 
   @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
   private static String chapter;
@@ -37,15 +37,20 @@ public class Main {
   @Argument
   private static String fileName = "";
 
+  private static Parser parser;
+
   public static void main(String[] args) {
     new Main().read(args);
-    ArrayList<String> details = new ArrayList<>(Arrays.asList(paragraph, point, letter));
-
-
     List<String> lines = FileLoader.load(fileName);
+    parser = new Parser(lines);
 
-    final Parser parser = new Parser(lines);
+    checkMode();
+    printChapter();
+    printDetails();
+    printRange();
+  }
 
+  private static void checkMode() {
     if (mode != null &&
       !mode.equals("table") &&
       !mode.equals("table_of_contents") &&
@@ -54,11 +59,18 @@ public class Main {
                            " ('table' in short) or 'show' (empty default to it).");
       System.exit(1);
     }
+  }
 
-    if (chapter != null) {
-      Partition c = parser.getChapter(chapter);
-      if (c != null) print(c);
-    }
+  private static void printChapter() {
+    if (chapter == null) return;
+    Partition c = parser.getChapter(chapter);
+    if (c != null) print(c);
+  }
+
+  private static void printDetails() {
+    ArrayList<String> details = new ArrayList<>(Arrays.asList(paragraph, point, letter));
+
+    if (article == null) return;
 
     Partition parent = parser.getArticle(article);
     while (details.size() != 0) {
@@ -68,7 +80,15 @@ public class Main {
       parent = partition;
     }
     if (parent != null) print(parent);
+  }
 
+  private static void print(Partition p) {
+    System.out.println(p.getTitle());
+    System.out.println(p.getContent());
+    System.exit(0);
+  }
+
+  private static void printRange() {
     boolean areDetailsEmpty = chapter == null &&
       article == null &&
       paragraph == null &&
@@ -76,8 +96,8 @@ public class Main {
       letter == null;
 
     if (areDetailsEmpty && articlesFrom != null && articlesTo != null) {
-      parser.getArticles().subList(articlesFrom, articlesTo)
-            .forEach(System.out::println);
+      // FIX: why does it print only first line?
+      parser.getArticleRange(articlesFrom, articlesTo).forEach(Main::print);
     }
   }
 
@@ -88,11 +108,5 @@ public class Main {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
     }
-  }
-
-  private static void print(Partition p) {
-    System.out.println(p.getTitle());
-    System.out.println(p.getContent());
-    System.exit(0);
   }
 }
