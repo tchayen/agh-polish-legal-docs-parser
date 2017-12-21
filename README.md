@@ -39,7 +39,7 @@ Start with command:
 ```bash
 java -jar lpars.jar assets/uokik.txt ...
 ```
-then choose provide parameters:
+then provide parameters:
 ```
 --mode table --division III
 --articles-from 29 --articles-to 32
