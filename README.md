@@ -34,6 +34,8 @@ First (and the only expected) non-option arguement is assumed to be a filename.
 
 `-t` / `--articles-to` end of articles range. Inclusive.
 
+The order of options *does not* matter.
+
 ## Example of usage
 Start with command:
 ```bash
