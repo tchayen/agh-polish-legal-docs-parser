@@ -93,9 +93,13 @@ public class Parser {
 
   public List<Partition> getArticleRange(String from, String to) {
     int i = 0;
-    while (!articles.get(i).getNumber().equals(from) && i < articles.size()) i++;
+    while ((articles.get(i).getNumber() == null ||
+      !articles.get(i).getNumber().equals(from)) &&
+      i < articles.size()) i++;
     int j = 0;
-    while (!articles.get(j).getNumber().equals(to) && j < articles.size()) j++;
+    while ((articles.get(i).getNumber() == null ||
+      !articles.get(j).getNumber().equals(to))
+      && j < articles.size()) j++;
     return articles.subList(i, j + 1);
   }
 
