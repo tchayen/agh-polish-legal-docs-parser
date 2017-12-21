@@ -11,11 +11,6 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class Parser {
-  /**
-   * Globally counts articles. Starts with -1 to offset preamble.
-   */
-  private AtomicInteger articleCounter = new AtomicInteger(-1);
-
   private LegalPartition law;
   private List<LegalPartition> chapters;
   private List<LegalPartition> articles;
@@ -35,23 +30,18 @@ public class Parser {
           .forEach(law -> {
             this.law = law;
 
+            // Skip different amount of lines based on document.
             if (law.getContent().startsWith("KONSTYTUCJA")) {
               law.setContent(law.getContent().split("\n", 5)[4]);
             } else {
               law.setContent(law.getContent().split("\n", 3)[2]);
             }
 
-            this.parse(law, IntStream.range(0, 8)
-                                     .collect(
-                                       ArrayList::new,
-                                       ArrayList::add,
-                                       ArrayList::addAll
-                                     ));
+            this.parse(law, IntStream.range(0, 8).collect(
+              ArrayList::new, ArrayList::add, ArrayList::addAll));
 
-            chapters = this.law.getPartitions()
-                               .stream()
-                               .flatMap(division -> division.getPartitions()
-                                                            .stream())
+            chapters = this.law.getPartitions().stream()
+                               .flatMap(division -> division.getPartitions().stream())
                                .collect(toList());
 
             articles = this.law
