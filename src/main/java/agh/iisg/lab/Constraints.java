@@ -25,7 +25,7 @@ public class Constraints {
   public static final List<Pattern> titleMatchers = Stream.of(
     "^DZIAŁ [IVX]+ " + WORD_REGEX + "\n",
     "^Rozdział ([IVX]+|\\d+[a-z]*) " + WORD_REGEX + "\n",
-    "^"+ WORD_REGEX + "\n",
+    "^" + WORD_REGEX + "\n",
     "^Art\\. \\d+[a-z]*?\\.\n",
     "^\\d+[a-z]*?\\. ",
     "^\\d+[a-z]*?\\) ",
