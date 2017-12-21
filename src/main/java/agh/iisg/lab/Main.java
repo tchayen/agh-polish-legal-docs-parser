@@ -74,15 +74,28 @@ public class Main {
             .forEach(division -> {
               if (division.getTitle() != null)
                 System.out.println(division.getTitle());
-              division.getPartitions().forEach(
-                chapter -> {
-                  if (chapter.getTitle() != null) {
-                    if (division.getTitle() != null) System.out.print("    ");
-                    System.out.print(chapter.getTitle() + "\n");
-                  }
-                });
+              printDivisionsTableOfContents(division);
             });
+    } else {
+      Partition maybeDivision = parser.getLaw().getPartition(division);
+      if (maybeDivision == null) {
+        System.out.println("There is no division with given number (maybe you" +
+          "are using arabic instead of roman numerals?");
+        System.exit(1);
+      }
+      printDivisionsTableOfContents(maybeDivision);
     }
+  }
+
+  private static void printDivisionsTableOfContents(Partition division) {
+    division.getPartitions().forEach(
+      chapter -> {
+        if (chapter.getTitle() != null) {
+          if (division.getTitle() != null) System.out.print("    ");
+          System.out.print(chapter.getTitle() + "\n");
+        }
+      }
+    );
   }
 
   private static void printChapter() {
