@@ -2,6 +2,7 @@ package agh.iisg.lab;
 
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -65,7 +66,7 @@ public class Parser {
               Matcher title = Constraints.titleMatchers.get(index).matcher(raw);
               if (title.find()) {
                 String foundTitle = title.group(0);
-                raw = raw.replaceFirst(foundTitle, "");
+                raw = raw.replaceFirst(Pattern.quote(foundTitle), "");
                 partition.setTitle(foundTitle.substring(0, foundTitle.length() - 1));
                 Matcher number = Constraints.numberExtractors.get(index).matcher(title.group(0));
                 if (number.find()) partition.setNumber(number.group(0));
@@ -76,7 +77,8 @@ public class Parser {
             .collect(toList());
     // NOTE: 4 is an arbitrary number allowing us to assume that structure
     // can get inconsistent deeper in the hierarchy from now on.
-    if (indices.size() < 4 && !partitions.stream().allMatch(p -> p.getTitle() != null)) return;
+//    if (indices.size() < 4 && !partitions.stream().allMatch(p -> p.getTitle() != null)) return;
+
     parent.setPartitions(partitions);
     partitions.forEach(partition -> this.parse(partition, new ArrayList<>(indices)));
   }

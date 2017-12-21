@@ -17,7 +17,7 @@ public class Constraints {
     "\n(?=" + UPPERCASE_WORD_REGEX + "+\n)",
     "\n(?=Art\\. \\d+[a-z]*?\\.\n)",
     "\n(?=\\d+[a-z]*?\\. )",
-    "\n\\d+[a-z]*?\\) ",
+    "\n(?=\\d+[a-z]*?\\) )",
     "\n[a-z]+\\) ",
     "\n- "
   ).map(Pattern::compile).collect(Collectors.toList());
@@ -28,9 +28,9 @@ public class Constraints {
     "" + WORD_REGEX + "\n",
     "Art\\. \\d+[a-z]*?\\.\n",
     "\\d+[a-z]*?\\. ",
-    "^\\d+[a-z]*?\\) ",
-    "^[a-z]+\\) ",
-    "^\n- "
+    "\\d+[a-z]*?\\) ",
+    "[a-z]+\\) ",
+    "\n- "
   ).map(Pattern::compile).collect(Collectors.toList());
 
   public static final List<Pattern> numberExtractors = Stream.of(

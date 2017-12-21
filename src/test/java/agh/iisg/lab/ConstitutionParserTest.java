@@ -82,23 +82,6 @@ public class ConstitutionParserTest {
     );
   }
 
-  /**
-   * Assert that there are no leftover "X. " prefixes in points.
-   */
-  @Test
-  public void extensivePointTest() {
-    constitution.getLaw()
-                .getPartitions().get(0)
-                .getPartitions()
-                .stream()
-                .flatMap(chapter -> chapter.getPartitions().stream())
-                .flatMap(section -> section.getPartitions().stream())
-                .flatMap(article -> article.getPartitions().stream())
-                .forEach(paragraph -> assertFalse(paragraph.getContent()
-                                                           .matches("\\d+[a-z]*?\\. .*"))
-                );
-  }
-
   @Test
   public void articleCountTest() {
     assertEquals(

@@ -66,7 +66,7 @@ public class Main {
   }
 
   private static void printTableOfContents() {
-    if (!mode.equals("table") && !mode.equals("table_of_contents")) return;
+    if (mode == null || (!mode.equals("table") && !mode.equals("table_of_contents"))) return;
 
     if (division == null) {
       parser.getLaw()
@@ -99,7 +99,7 @@ public class Main {
   }
 
   private static void printChapter() {
-    if (mode.equals("table") || mode.equals("table_of_contents")) return;
+    if (mode == null || mode.equals("table") || mode.equals("table_of_contents")) return;
     if (parser.getLaw().getPartitions().size() != 1 &&
       division == null) {
       System.out.println("You must specify division in so program can " +
