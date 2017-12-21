@@ -37,7 +37,7 @@ public class Partition {
 
   public void setPartitions(List<Partition> partitions) {
     this.partitions = partitions;
-    this.partitions.forEach(partition -> resolveTitles.put(partition.getTitle(), partition));
+    this.partitions.forEach(partition -> resolveTitles.put(partition.getNumber(), partition));
   }
 
   public String getNumber() {

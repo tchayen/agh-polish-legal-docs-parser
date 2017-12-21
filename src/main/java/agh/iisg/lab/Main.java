@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -37,6 +39,8 @@ public class Main {
 
   public static void main(String[] args) {
     new Main().read(args);
+    ArrayList<String> details = new ArrayList<>(Arrays.asList(paragraph, point, letter));
+
 
     List<String> lines = FileLoader.load(fileName);
 
@@ -51,32 +55,29 @@ public class Main {
       System.exit(1);
     }
 
-    if (letter != null && point != null && paragraph != null && article != null) {
-
-    } else if (point != null && paragraph != null && article != null) {
-
-    } else if (paragraph != null && article != null) {
-
-    } else if (article != null) {
-      parser.getArticles().forEach(a -> {
-        if (a.getNumber().equals(article)) {
-          System.out.println(a.getTitle());
-          System.out.println(a.getContent());
-        }
-      });
+    if (chapter != null) {
+      Partition c = parser.getChapter(chapter);
+      if (c != null) print(c);
     }
 
-    if (articlesFrom != null && articlesTo != null) {
+    Partition parent = parser.getArticle(article);
+    while (details.size() != 0) {
+      String title = details.remove(0);
+      Partition partition = parent.getPartition(title);
+      if (partition == null) break;
+      parent = partition;
+    }
+    if (parent != null) print(parent);
+
+    boolean areDetailsEmpty = chapter == null &&
+      article == null &&
+      paragraph == null &&
+      point == null &&
+      letter == null;
+
+    if (areDetailsEmpty && articlesFrom != null && articlesTo != null) {
       parser.getArticles().subList(articlesFrom, articlesTo)
             .forEach(System.out::println);
-    }
-
-    if (chapter != null) {
-      parser.getChapters().forEach(c -> {
-        if (c.getNumber().equals(chapter)) {
-          System.out.println(c.getContent());
-        }
-      });
     }
   }
 
@@ -87,5 +88,11 @@ public class Main {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
     }
+  }
+
+  private static void print(Partition p) {
+    System.out.println(p.getTitle());
+    System.out.println(p.getContent());
+    System.exit(0);
   }
 }
