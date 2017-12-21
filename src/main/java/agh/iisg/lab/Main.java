@@ -131,7 +131,7 @@ public class Main {
     while (details.size() != 0) {
       String title = details.remove(0);
       Partition partition = parent.getPartition(title);
-      if (partition == null) break;
+      if (partition == null || partition.getContent() == parent.getContent()) break;
       parent = partition;
     }
     if (parent != null) print(parent);

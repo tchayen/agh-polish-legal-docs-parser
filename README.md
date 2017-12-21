@@ -5,19 +5,21 @@ Intensively uses functional features of Java 8 such as streams, lambdas, paralle
 
 ## Partition levels
 
-Chapter (Rozdział) `Rozdział [IVX]+\\nTITLE\\n`
+Division (Dział)
 
-Section (Sekcja) `[A-ZĘÓĄŚŁŻŹĆŃ, ]+\\n`
+Chapter (Rozdział)
 
-Article (Artykuł) `Art\\. \\d+\\.\\n`
+Section (Sekcja)
 
-Paragraph (Ustęp) `\\d+\\.\\s`
+Article (Artykuł)
 
-Point (Punkt) `\\d+\\)\\s`
+Paragraph (Ustęp)
 
-Letter (Litera) `[a-z]+\\)\\s`
+Point (Punkt)
 
-Indent (Tiret) `- \\s`
+Letter (Litera)
+
+Indent (Tiret)
 
 ## Running
 Not yet
