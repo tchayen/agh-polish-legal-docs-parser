@@ -67,6 +67,10 @@ public class Constraints {
     "(?<=DZIAŁ [IVX]{1,9}[A-Z]{0,2}|Rozdział \\d{1,4}[a-z]{0,4})\n"
   );
 
+  public static final Pattern matchNoNewlineDelimetedTitles = Pattern.compile(
+    "(\\d+[a-z]*?\\.|\\d+[a-z]*?\\)|[a-z]+\\))"
+  );
+
   /**
    * Replace spaces with new lines in cases where article is followed directly by plain text.
    */

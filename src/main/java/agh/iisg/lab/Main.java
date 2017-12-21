@@ -131,15 +131,19 @@ public class Main {
     while (details.size() != 0) {
       String title = details.remove(0);
       Partition partition = parent.getPartition(title);
-      if (partition == null || partition.getContent() == parent.getContent()) break;
+      if (partition == null || partition.getContent().equals(parent.getContent())) break;
       parent = partition;
     }
     if (parent != null) print(parent);
   }
 
   private static void print(Partition p) {
-    System.out.println(p.getTitle());
-    System.out.println(p.getContent());
+    System.out.print(
+      p.getTitle() + (
+        p.getTitle().matches(Constraints.matchNoNewlineDelimetedTitles.pattern())
+          ? " " : "\n"
+      ) + p.getContent()
+    );
     System.exit(0);
   }
 
