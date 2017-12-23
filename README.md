@@ -6,7 +6,7 @@ Intensively uses functional features of Java 8 such as streams, lambdas, paralle
 ## Partition levels
 
 Division (Dział) >
-Chapter (Rozdział)
+Chapter (Rozdział) >
 Section (Sekcja) >
 Article (Artykuł) >
 Paragraph (Ustęp) >
@@ -18,7 +18,7 @@ First (and the only expected) non-option arguement is assumed to be a filename.
 
 `-m` / `--mode` accepts `["table", table_of_contents", "show"]`. If empty, defaults to show. If you provide a mode, the only other accepted option is `--division`.
 
-`-d` / `--division` number of division. The only parameter working with this is `--chapter`.
+`-d` / `--division` number of division. Upon providing `--division` (and not `--mode` before), the only other working parameter with this one is `--chapter`.
 
 `-c` / `--chapter` chapter. Goes alone.
 
