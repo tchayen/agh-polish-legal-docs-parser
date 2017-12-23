@@ -125,15 +125,8 @@ public class Printer {
   }
 
   public void printRange() {
-    boolean areDetailsEmpty = params.get(Param.Chapter) == null &&
-      params.get(Param.Article) == null &&
-      params.get(Param.Paragraph) == null &&
-      params.get(Param.Point) == null &&
-      params.get(Param.Letter) == null;
-
-    if (areDetailsEmpty &&
-      params.get(Param.ArticlesFrom) != null &&
-      params.get(Param.ArticlesTo) != null) {
+    if (params.get(Param.ArticlesFrom) != null &&
+        params.get(Param.ArticlesTo) != null) {
       parser.getArticleRange(
         params.get(Param.ArticlesFrom), params.get(Param.ArticlesTo)
       ).forEach(article -> {

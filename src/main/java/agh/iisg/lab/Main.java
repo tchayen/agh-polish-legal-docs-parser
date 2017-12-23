@@ -10,32 +10,79 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-  @Option(name = "-m", aliases = {"--mode"}, usage = "Specify mode (table[_of_contents]/show)")
+  @Option(
+    name = "-m",
+    aliases = {"--mode"},
+    usage = "Specify mode (table[_of_contents]/show)."
+  )
   private static String mode;
 
-  @Option(name = "-d", aliases = {"--division"}, usage = "Specify division to show.")
+  @Option(
+    name = "-d",
+    aliases = {"--division"},
+    usage = "Specify division to show.",
+    forbids = {"-a", "-P", "-p", "-l"}
+  )
   private static String division;
 
-  @Option(name = "-c", aliases = {"--chapter"}, usage = "Specify chapter to show.")
+  @Option(
+    name = "-c",
+    aliases = {"--chapter"},
+    usage = "Specify chapter to show."
+  )
   private static String chapter;
 
-  @Option(name = "-a", aliases = {"--article"}, usage = "Specify article to show.")
+  @Option(
+    name = "-a",
+    aliases = {"--article"},
+    usage = "Specify article to show.",
+    forbids = {"-d", "-c", "-f", "-t"}
+  )
   private static String article;
 
-  @Option(name = "-P", aliases = {"--paragraph"}, usage = "Specify paragraph to show.")
+  @Option(
+    name = "-P",
+    aliases = {"--paragraph"},
+    usage = "Specify paragraph to show.",
+    depends = {"-a"}
+  )
   private static String paragraph;
 
-  @Option(name = "-p", aliases = {"--point"}, usage = "Specify point to show.")
+  @Option(
+    name = "-p",
+    aliases = {"--point"},
+    usage = "Specify point to show.",
+    depends = {"-a", "-P"}
+  )
   private static String point;
 
-  @Option(name = "-letter", aliases = {"--letter"}, usage = "Specify letter to show.")
+  @Option(
+    name = "-letter",
+    aliases = {"--letter"},
+    usage = "Specify letter to show.",
+    depends = {"-a", "-P", "-p"}
+  )
   private static String letter;
 
-  @Option(name = "-f", aliases = {"--articles-from"}, usage = "Specify article range start to show.")
+  @Option(
+    name = "-f",
+    aliases = {"--articles-from"},
+    usage = "Specify article range start to show."
+  )
   private static String articlesFrom;
 
-  @Option(name = "-t", aliases = {"--articles-to"}, usage = "Specify end of the range (inclusive).")
+  @Option(
+    name = "-t",
+    aliases = {"--articles-to"},
+    usage = "Specify end of the range (inclusive)."
+  )
   private static String articlesTo;
+
+  @Option(
+    name = "-h",
+    aliases = {"--help"},
+    help = true
+  )
 
   @Argument
   private static String fileName = "";
@@ -69,6 +116,7 @@ public class Main {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
+      System.exit(1);
     }
   }
 }
