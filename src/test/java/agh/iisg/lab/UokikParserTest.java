@@ -32,7 +32,7 @@ public class UokikParserTest {
 
     assertEquals(
       "Art. 138.",
-      articles.get(articles.size() - 1).getTitle()
+      articles.get(articles.size()).getTitle()
     );
   }
 
