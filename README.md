@@ -1,7 +1,7 @@
 # Polish legal docs parser
 OOP class assignment. Parser which turns text file with legal document (following Act of rules for legislative techniques in Poland) into object form.
 
-Intensively uses functional features of Java 8 such as streams, lambdas, parallelism, method references.
+Intensively uses functional features of Java 8 such as streams, lambdas, method references. 
 
 ## Partition levels
 
@@ -63,3 +63,7 @@ cp ./build/libs/lpars.jar . # Copy jar out of the build directory.
 java -jar lpars.jar ...args
 ```
 The `.idea` directory is also provided, allowing (hopefully) to easily run tests and build application. The builds are stored in `/out`. Also include artifact (i.e. jar) generation to `/out/artifacts`.
+
+
+## Dependencies
+[args4j](http://args4j.kohsuke.org/) - library making parsing CLI options/arguments easier.
