@@ -18,7 +18,7 @@ public class Constraints {
     "\n(?=Art\\. \\d+[a-z]*?\\.\n)",
     "\n(?=\\d+[a-z]*?\\. )",
     "\n(?=\\d+[a-z]*?\\) )",
-    "\n[a-z]+\\) ",
+    "\n(?=[a-z]+\\) )",
     "\n- "
   ).map(Pattern::compile).collect(Collectors.toList());
 

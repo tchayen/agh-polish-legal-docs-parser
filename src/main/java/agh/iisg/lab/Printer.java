@@ -119,7 +119,7 @@ public class Printer {
       p.getTitle() + (
         p.getTitle().matches(Constraints.matchNoNewlineDelimetedTitles.pattern())
           ? " " : "\n"
-      ) + p.getContent()
+      ) + p.getContent() + "\n"
     );
     System.exit(0);
   }

@@ -39,17 +39,21 @@ The order of options *does not* matter.
 ## Example of usage
 Start with command:
 ```bash
-java -jar lpars.jar assets/uokik.txt ...
+java -jar lpars.jar ...
 ```
-then provide parameters:
+choose file (`konstytucja.txt` and `uokik.txt` are provided in `/assets`):
+```
+... assets/uokik.txt ...
+```
+then provide parameters (each line below is separate example):
 ```
 --mode table --division III
 --articles-from 29 --articles-to 32
---article 113f --paragraph 2 --point 1 
+--article 111 --paragraph 3 --point 1 --letter c
 ```
 
 **NOTE:**
-Due to questionable consistence, make sure you provide numbers in exactly the same format as in the source document (roman/arabic numerals).
+Due to questionable consistence of the documents, make sure you provide numbers in exactly the same format as in the source document (roman/arabic numerals).
 ## Running
 In order to quickly produce `*.jar` archive, type the following (requires Gradle installed):
 ```bash

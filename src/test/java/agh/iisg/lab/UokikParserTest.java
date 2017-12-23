@@ -54,4 +54,12 @@ public class UokikParserTest {
       uokik.getArticle("2").getPartition("2").getPartition("2").getPartition("b)").getContent()
     );
   }
+
+  @Test
+  public void getPointTest() {
+    assertEquals(
+      "podjęcie z własnej inicjatywy działań w celu zaprzestania naruszenia lub usunięcia jego skutków,",
+      uokik.getArticle("111").getPartition("3").getPartition("1").getPartition("c").getContent()
+    );
+  }
 }
