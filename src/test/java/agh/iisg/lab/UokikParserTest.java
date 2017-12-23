@@ -46,4 +46,12 @@ public class UokikParserTest {
            .reduce("", String::concat)
     );
   }
+
+  @Test
+  public void getLetterTest() {
+    assertEquals(
+      "zasad organizacji i zarządzania – co do których podjęto działania zmierzające do zapobieżenia ich ujawnieniu, jeżeli skutkiem tych umów jest nieuzasadnione ograniczenie swobody działalności gospodarczej stron lub istotne ograniczenie konkurencji na rynku.",
+      uokik.getArticle("2").getPartition("2").getPartition("2").getPartition("b)").getContent()
+    );
+  }
 }

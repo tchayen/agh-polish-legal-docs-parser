@@ -12,7 +12,7 @@ public class Constraints {
   public static final String WORD_REGEX = "[A-zĘęÓóĄąŚśŁłŻżŹźĆćŃń, ]+";
 
   public static final List<Pattern> splitters = Stream.of(
-    "\n(?=DZIAŁ [IVX]+[A-Z]+ " + WORD_REGEX + "\n)",
+    "\n(?=DZIAŁ [IVX]+[A-Z]* " + WORD_REGEX + "\n)",
     "\n(?=Rozdział ([IVX]+|\\d+[a-z]*) " + WORD_REGEX + "\n)",
     "\n(?=" + UPPERCASE_WORD_REGEX + "+\n)",
     "\n(?=Art\\. \\d+[a-z]*?\\.\n)",
@@ -23,7 +23,7 @@ public class Constraints {
   ).map(Pattern::compile).collect(Collectors.toList());
 
   public static final List<Pattern> titleMatchers = Stream.of(
-    "DZIAŁ [IVX]+[A-Z]+ " + WORD_REGEX + "\n",
+    "DZIAŁ [IVX]+[A-Z]* " + WORD_REGEX + "\n",
     "Rozdział ([IVX]+|\\d+[a-z]*) " + WORD_REGEX + "\n",
     "" + WORD_REGEX + "\n",
     "Art\\. \\d+[a-z]*?\\.\n",
