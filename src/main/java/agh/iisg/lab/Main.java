@@ -83,39 +83,52 @@ public class Main {
     aliases = {"--help"},
     help = true
   )
+  private static boolean help;
 
   @Argument
   private static String fileName = "";
 
   public static void main(String[] args) {
     new Main().read(args);
-    List<String> lines = FileLoader.load(fileName);
-
-    Map<Param, String> params = new HashMap<>();
-    params.put(Param.Mode, mode);
-    params.put(Param.Division, division);
-    params.put(Param.Chapter, chapter);
-    params.put(Param.Article, article);
-    params.put(Param.Paragraph, paragraph);
-    params.put(Param.Point, point);
-    params.put(Param.Letter, letter);
-    params.put(Param.ArticlesFrom, articlesFrom);
-    params.put(Param.ArticlesTo, articlesTo);
-
-    Printer p = new Printer(lines, params);
-    p.checkMode();
-    p.printTableOfContents();
-    p.printChapter();
-    p.printDetails();
-    p.printRange();
   }
 
   private void read(String[] args) {
     CmdLineParser parser = new CmdLineParser(this);
     try {
       parser.parseArgument(args);
+
+      if (help) {
+        parser.printUsage(System.out);
+        System.exit(0);
+      }
+
+      List<String> lines = FileLoader.load(fileName);
+
+      Map<Param, String> params = new HashMap<>();
+      params.put(Param.Mode, mode);
+      params.put(Param.Division, division);
+      params.put(Param.Chapter, chapter);
+      params.put(Param.Article, article);
+      params.put(Param.Paragraph, paragraph);
+      params.put(Param.Point, point);
+      params.put(Param.Letter, letter);
+      params.put(Param.ArticlesFrom, articlesFrom);
+      params.put(Param.ArticlesTo, articlesTo);
+
+      if (help) {
+        parser.printUsage(System.err);
+        System.exit(0);
+      }
+
+      Printer p = new Printer(lines, params);
+      p.checkMode();
+      p.printTableOfContents();
+      p.printChapter();
+      p.printDetails();
+      p.printRange();
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
+      parser.printUsage(System.err);
       System.exit(1);
     }
   }
