@@ -114,7 +114,10 @@ public class Printer {
       String title = details.remove(0);
       try {
         Partition partition = parent.getPartition(title);
-        if (partition == null) break;
+        if (partition == null) {
+          if (title != null) throw new NullPointerException();
+          break;
+        }
         parent = partition;
       } catch (NullPointerException e) {
         System.out.println("Not found.");
