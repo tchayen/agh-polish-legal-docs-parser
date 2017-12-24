@@ -103,11 +103,11 @@ public class Printer {
       params.get(Param.Letter)
     ));
 
+    if (params.get(Param.Article) == null) return;
+
     int i = details.size() - 1;
     while (details.get(i) == null) i--;
     details = new ArrayList<>(details.subList(0, i + 1));
-
-    if (params.get(Param.Article) == null) return;
 
     Partition parent = parser.getArticle(params.get(Param.Article));
     while (details.size() != 0) {
