@@ -51,8 +51,8 @@ public class Main {
   @Option(
     name = "-p",
     aliases = {"--point"},
-    usage = "Specify point to show.",
-    depends = {"-a", "-P"}
+    usage = "Specify point to show (Note: you might omit paragraph since there are articles containing points but no paragraphs).",
+    depends = {"-a"}
   )
   private static String point;
 

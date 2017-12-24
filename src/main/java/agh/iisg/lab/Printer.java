@@ -1,5 +1,6 @@
 package agh.iisg.lab;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,6 +103,10 @@ public class Printer {
       params.get(Param.Letter)
     ));
 
+    int i = details.size() - 1;
+    while (details.get(i) == null) i--;
+    details = new ArrayList<>(details.subList(0, i + 1));
+
     if (params.get(Param.Article) == null) return;
 
     Partition parent = parser.getArticle(params.get(Param.Article));
@@ -109,7 +114,7 @@ public class Printer {
       String title = details.remove(0);
       try {
         Partition partition = parent.getPartition(title);
-        if (partition == null || partition.getContent().equals(parent.getContent())) break;
+        if (partition == null) break;
         parent = partition;
       } catch (NullPointerException e) {
         System.out.println("Not found.");
@@ -121,12 +126,18 @@ public class Printer {
   }
 
   public void print(Partition p) {
-    System.out.print(
-      p.getTitle() + (
-        p.getTitle().matches(Constraints.matchNoNewlineDelimetedTitles.pattern())
-          ? " " : "\n"
-      ) + p.getContent() + "\n"
-    );
+    StringBuilder builder = new StringBuilder("");
+    if (p.getTitle() != null) {
+      builder.append(p.getTitle());
+      if (p.getTitle().matches(Constraints.matchNoNewlineDelimetedTitles.pattern())) {
+        builder.append(" ");
+      } else {
+        builder.append("\n");
+      }
+    }
+    builder.append(p.getContent());
+    builder.append("\n");
+    System.out.print(builder.toString());
     System.exit(0);
   }
 
