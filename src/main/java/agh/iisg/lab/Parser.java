@@ -22,17 +22,13 @@ public class Parser {
            .reduce("", String::concat)
            .replaceAll(Constraints.dashedNewline.pattern(), "")
            .replaceAll(Constraints.skipNewlines.pattern(), " ")
-           .replaceAll(Constraints.replaceSpaces.pattern(), "\n")
+           .replaceAll(Constraints.forceArticleLineBreaks.pattern(), "\n")
            .replaceAll(Constraints.joinTitles.pattern(), " ")
     ).map(Partition::new).forEach(law -> {
       this.law = law;
 
-      // Skip different amount of lines based on document.
-      if (law.getContent().startsWith("KONSTYTUCJA")) {
-        law.setContent(law.getContent().split("\n", 5)[4]);
-      } else {
-        law.setContent(law.getContent().split("\n", 3)[2]);
-      }
+      // Skip preamble.
+      law.setContent(law.getContent().split("\n", 3)[2]);
 
       this.parse(law, IntStream.range(0, 8).collect(
         ArrayList::new, ArrayList::add, ArrayList::addAll));

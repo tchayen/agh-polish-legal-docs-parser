@@ -107,9 +107,15 @@ public class Printer {
     Partition parent = parser.getArticle(params.get(Param.Article));
     while (details.size() != 0) {
       String title = details.remove(0);
-      Partition partition = parent.getPartition(title);
-      if (partition == null || partition.getContent().equals(parent.getContent())) break;
-      parent = partition;
+      try {
+        Partition partition = parent.getPartition(title);
+        if (partition == null || partition.getContent().equals(parent.getContent())) break;
+        parent = partition;
+      } catch (NullPointerException e) {
+        System.out.println("Not found.");
+        System.exit(1);
+      }
+
     }
     if (parent != null) print(parent);
   }
@@ -126,7 +132,7 @@ public class Printer {
 
   public void printRange() {
     if (params.get(Param.ArticlesFrom) != null &&
-        params.get(Param.ArticlesTo) != null) {
+      params.get(Param.ArticlesTo) != null) {
       parser.getArticleRange(
         params.get(Param.ArticlesFrom), params.get(Param.ArticlesTo)
       ).forEach(article -> {
