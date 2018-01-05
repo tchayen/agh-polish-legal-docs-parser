@@ -28,7 +28,12 @@ public class Parser {
       this.law = law;
 
       // Skip preamble.
-      law.setContent(law.getContent().split("\n", 3)[2]);
+      try {
+        law.setContent(law.getContent().split("\n", 3)[2]);
+      } catch (ArrayIndexOutOfBoundsException ex) {
+        System.out.println("Error while parsing file. Make sure you provided correct legal act.");
+        System.exit(1);
+      }
 
       this.parse(law, IntStream.range(0, 8).collect(
         ArrayList::new, ArrayList::add, ArrayList::addAll));
