@@ -69,10 +69,10 @@ public class Printer {
     String division = params.get(Param.Division);
     String chapter = params.get(Param.Chapter);
 
-    if (mode == null ||
-      mode.equals("table") ||
-      mode.equals("table_of_contents")
-      ) return;
+    if (division != null && chapter == null) {
+      System.out.println(parser.getLaw().getPartition(division));
+      System.exit(0);
+    }
 
     if (parser.getLaw().getPartitions().size() != 1 &&
       division == null) {
@@ -106,7 +106,7 @@ public class Printer {
     if (params.get(Param.Article) == null) return;
 
     int i = details.size() - 1;
-    while (i >= 0 && details.get(i) == null) i--;
+    while (i > 0 && details.get(i) == null) i--;
     details = new ArrayList<>(details.subList(0, i + 1));
 
     Partition parent = parser.getArticle(params.get(Param.Article));
@@ -147,6 +147,14 @@ public class Printer {
   public void printRange() {
     if (params.get(Param.ArticlesFrom) != null &&
       params.get(Param.ArticlesTo) != null) {
+      if (parser.getArticle(params.get(Param.ArticlesFrom)) == null) {
+        System.out.println("Couldn't find starting article.");
+        System.exit(1);
+      } else if (parser.getArticle(params.get(Param.ArticlesTo)) == null) {
+        System.out.println("Couldn't find ending article.");
+        System.exit(1);
+      }
+
       parser.getArticleRange(
         params.get(Param.ArticlesFrom), params.get(Param.ArticlesTo)
       ).forEach(article -> {

@@ -34,7 +34,7 @@ public class Constraints {
   ).map(Pattern::compile).collect(Collectors.toList());
 
   public static final List<Pattern> numberExtractors = Stream.of(
-    "(?<=DZIAŁ )[IVX]+[A-Z]+",
+    "(?<=DZIAŁ )[IVX]{1,8}[A-Z]{0,4}",
     "(?<=Rozdział )([IVX]+|\\d{1,4}[a-z]{0,4})",
     "",
     "(?<=Art\\. )\\d{1,4}[a-z]{0,4}?(?=\\.)",
