@@ -74,6 +74,10 @@ public class Printer {
       System.exit(0);
     }
 
+    if (chapter == null) {
+      return;
+    }
+
     if (parser.getLaw().getPartitions().size() != 1 &&
       division == null) {
       System.out.println("You must specify division in so program can " +
