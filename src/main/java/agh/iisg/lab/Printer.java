@@ -106,7 +106,7 @@ public class Printer {
     if (params.get(Param.Article) == null) return;
 
     int i = details.size() - 1;
-    while (details.get(i) == null) i--;
+    while (i >= 0 && details.get(i) == null) i--;
     details = new ArrayList<>(details.subList(0, i + 1));
 
     Partition parent = parser.getArticle(params.get(Param.Article));
