@@ -1,6 +1,5 @@
 package agh.iisg.lab;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,7 +83,6 @@ public class Printer {
                            "recognize chapter.");
       System.exit(1);
     }
-    if (chapter == null) return;
 
     Partition c = null;
     if (division == null) {
@@ -162,8 +160,7 @@ public class Printer {
       parser.getArticleRange(
         params.get(Param.ArticlesFrom), params.get(Param.ArticlesTo)
       ).forEach(article -> {
-        System.out.println(article.getTitle());
-        System.out.println(article.getContent());
+        print(article);
       });
     }
   }

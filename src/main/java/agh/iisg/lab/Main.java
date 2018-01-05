@@ -57,10 +57,10 @@ public class Main {
   private static String point;
 
   @Option(
-    name = "-letter",
+    name = "-l",
     aliases = {"--letter"},
     usage = "Specify letter to show.",
-    depends = {"-a", "-P", "-p"}
+    depends = {"-a", "-p"}
   )
   private static String letter;
 
